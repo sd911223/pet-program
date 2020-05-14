@@ -34,7 +34,7 @@
         </commentGenerator>
 
         <!-- jdbc连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/ydcs"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://yundiancs.mysql.polardb.rds.aliyuncs.com:3306/ydcs"
                         userId="ceshi"
                         password="uP8ICbwQDp52EZ6v"/>
 
@@ -76,7 +76,7 @@
         <!--              <generatedKey column="id" sqlStatement="Mysql" identity="true" /> &ndash;&gt;-->
         <!--        </table>-->
 
-        <table tableName="image" enableCountByExample="true"
+        <table tableName="live_user" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
