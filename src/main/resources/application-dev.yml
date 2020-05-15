@@ -1,14 +1,26 @@
 spring:
+  #数据库
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://yundiancs.mysql.polardb.rds.aliyuncs.com:3306/ydcs?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
     username: ceshi
-#    password: sd123456
     password: uP8ICbwQDp52EZ6v
-#redis相关配置
+    db-type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 256
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+ #redis相关配置
   redis:
     host: r-wz9pzuxsgm5u1gmpv2pd.redis.rds.aliyuncs.com
-#    password:
     password: z4e@1zoF25cPlDvY
     port: 6379
     jedis:
@@ -18,9 +30,5 @@ spring:
         max-idle: 8
         min-idle: 2
 server:
-  port: 8081
-WeChat:
-  appid: wx001b3f2c80e88782
-  mch_id: 1582735591
-  url: https://api.mch.weixin.qq.com/pay/unifiedorder
-  api_key: 87206daa21eccf26ea8ae580abc1f429
+  port: 18081
+

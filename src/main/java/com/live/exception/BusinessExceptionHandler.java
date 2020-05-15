@@ -1,6 +1,7 @@
 package com.live.exception;
 
-import com.live.bean.result.RestResponse;
+import com.live.common.RestResponse;
+import com.live.common.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public RestResponse handleBusinessException(BusinessException e) {
         RestResponse restResponse = new RestResponse();
-        restResponse.put("code", e.getCode());
-        restResponse.put("msg", e.getMessage());
+        restResponse.setStatus(e.getCode());
+        restResponse.setMsg(e.getMessage());
 
         return restResponse;
     }
@@ -30,18 +31,18 @@ public class BusinessExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public RestResponse handlerNoFoundException(Exception e) {
         log.error(e.getMessage(), e);
-        return RestResponse.error(HttpStatus.NOT_FOUND.value(), "路径不存在，请检查路径是否正确");
+        return ResultUtil.error(HttpStatus.NOT_FOUND.value(), "路径不存在，请检查路径是否正确");
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
     public RestResponse handleDuplicateKeyException(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        return RestResponse.error("数据库中已存在该记录");
+        return ResultUtil.error(HttpStatus.NOT_FOUND.value(),"数据库中已存在该记录");
     }
 
     @ExceptionHandler(Exception.class)
     public RestResponse handleException(Exception e) {
         log.error(e.getMessage(), e);
-        return RestResponse.error();
+        return ResultUtil.error();
     }
 }
