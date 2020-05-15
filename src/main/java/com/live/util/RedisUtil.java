@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author shitou
  */
-public final class RedisUtil {
+public  class RedisUtil {
     private RedisTemplate<String, Object> redisTemplate;
 
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
