@@ -1,5 +1,6 @@
 package com.live.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.live.common.RestResponse;
 import com.live.service.LiveService;
 import io.swagger.annotations.Api;
@@ -27,7 +28,7 @@ public class LiveController {
     @ApiImplicitParams({@ApiImplicitParam(name = "page", required = true, example = "1"),
             @ApiImplicitParam(value = "store_id", required = true)
     })
-    public RestResponse getLiveList(Integer page, Integer store_id, @RequestHeader("Authorization") String token) {
+    public RestResponse getLiveList(Integer page, Integer store_id, @RequestHeader("Authorization") String token) throws JsonProcessingException {
         return liveService.getLiveList(page, store_id, token);
     }
 }
