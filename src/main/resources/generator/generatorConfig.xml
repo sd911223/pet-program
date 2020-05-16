@@ -96,7 +96,7 @@
         <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
         <!--        </table>-->
 
-        <table tableName="live_user" enableCountByExample="true"
+        <table tableName="live_store_clerk" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
@@ -109,9 +109,8 @@
 
             <!--             数据库表主键-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <columnOverride column="status" javaType="Integer"/>
-            <columnOverride column="tinyint" javaType="Integer"/>
-            <columnOverride column="is_promoter" javaType="Integer"/>
+            <columnOverride column="store_role" javaType="Integer"/>
+            <columnOverride column="store_status" javaType="Integer"/>
         </table>
     </context>
 </generatorConfiguration>
