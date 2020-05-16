@@ -12,11 +12,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * redis工具类
  */
-@Component("redisUtils")
 public class RedisUtil {
-    @Value("${redis.prefix}")
-    private String prefix;
-    @Value("${redis.token}")
+
     private String token;
 
     @Autowired
@@ -40,14 +37,7 @@ public class RedisUtil {
         return redisTemplate.opsForValue().get(key);
     }
 
-    /**
-     * 获取token
-     *
-     * @param key
-     */
-    public String getToken(String key) {
-        return redisTemplate.opsForValue().get(prefix+token+key+":");
-    }
+
     /**
      * 字符串存入值
      * 默认过期时间为2小时

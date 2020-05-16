@@ -1,14 +1,12 @@
 package com.live.interceptor;
 
-import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.fastjson.JSON;
 import com.live.common.ResultEnum;
 import com.live.common.ResultUtil;
 import com.live.model.LiveUser;
 import com.live.util.PHPSerializerHelper;
-import com.live.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -26,22 +24,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class AppInterceptor implements HandlerInterceptor {
-    @Autowired
-    private static StringRedisTemplate redisTemplate;
-    /**
-     * redis服务
-     **/
-    private static RedisUtil redisUtil;
 
-    /**
-     * redis服务
-     */
-    private static RedisUtil getRedisService() {
-        if (redisUtil == null) {
-            redisUtil = (RedisUtil) SpringUtil.getBean("redisUtils");
-        }
-        return redisUtil;
-    }
+    @Value("${redis.prefix}")
+    private String prefix;
+
+    @Value("${redis.token}")
+    private String redisToken;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
 
 //    private static final List<String> noLoginResources = new ArrayList<String>() {
 //        private static final long serialVersionUID = 1L;
@@ -95,13 +86,12 @@ public class AppInterceptor implements HandlerInterceptor {
             response.getWriter().write(JSON.toJSONString(ResultUtil.error(ResultEnum.LOGIN_IS_OVERDUE.getStatus(), ResultEnum.LOGIN_IS_OVERDUE.getMsg())));
             return false;
         }
-        String s = redisTemplate.opsForValue().get("njm_token_uid_" + token + ":");
-        String redisToken = getRedisService().getToken(token);
-        if (StringUtils.isEmpty(redisToken)) {
+        String redisTokenStr = redisTemplate.opsForValue().get(prefix + redisToken + token + ":");
+        if (StringUtils.isEmpty(redisTokenStr)) {
             response.getWriter().write(JSON.toJSONString(ResultUtil.error(ResultEnum.LOGIN_IS_OVERDUE.getStatus(), ResultEnum.LOGIN_IS_OVERDUE.getMsg())));
             return false;
         }
-        LiveUser user = PHPSerializerHelper.convertJavaBean(redisToken, LiveUser.class);
+        LiveUser user = PHPSerializerHelper.convertJavaBean(redisTokenStr, LiveUser.class);
         if (null == user) {
             response.getWriter().write(JSON.toJSONString(ResultUtil.error(ResultEnum.LOGIN_IS_OVERDUE.getStatus(), ResultEnum.LOGIN_IS_OVERDUE.getMsg())));
             return false;
