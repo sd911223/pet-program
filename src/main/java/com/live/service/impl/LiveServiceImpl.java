@@ -31,13 +31,18 @@ public class LiveServiceImpl implements LiveService {
     LiveStoreMapper liveStoreMapper;
 
     @Override
-    public RestResponse getLiveList(Integer page, Integer store_id, String token) {
+    public RestResponse getLiveList(Integer page, Integer store_id, String lng, String lat, String cityCode, String token) {
         //根据token获取uid
         Object value = redisService.getToken(token);
         LiveUser user = JSONObject.parseObject(value.toString(), LiveUser.class);
         LiveUser liveUser = liveUserMapper.selectByPrimaryKey(user.getUid());
+        LiveStore liveStore = null;
+        Integer storeId = null;
         if (liveUser.getClerk_id() != null) {
-            getLiveStore(liveUser.getClerk_id());
+            liveStore = getLiveStore(liveUser.getClerk_id());
+            if (liveStore != null) {
+                storeId=liveStore.getId();
+            }
         }
         return null;
     }
@@ -50,9 +55,16 @@ public class LiveServiceImpl implements LiveService {
      */
     public LiveStore getLiveStore(Integer clerkId) {
         LiveStoreClerk clerk = liveStoreClerkMapper.selectByPrimaryKey(clerkId);
+        if (clerk.getStore_id() == null || clerk == null) {
+            return new LiveStore();
+        }
         LiveStoreKey liveStoreKey = new LiveStoreKey();
+        if (clerk.getStore_id() == null) {
+            return new LiveStore();
+        }
         liveStoreKey.setStore_no(clerk.getStore_id().toString());
         LiveStore liveStore = liveStoreMapper.selectByPrimaryKey(liveStoreKey);
+
         return liveStore;
     }
 }

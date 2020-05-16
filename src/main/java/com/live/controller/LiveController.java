@@ -1,7 +1,8 @@
 package com.live.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.pagehelper.PageInfo;
 import com.live.common.RestResponse;
+import com.live.model.LiveActivity;
 import com.live.service.LiveService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,9 +27,12 @@ public class LiveController {
     @ApiOperation("获取列表")
     @GetMapping("/live_list")
     @ApiImplicitParams({@ApiImplicitParam(name = "page", required = true, example = "1"),
-            @ApiImplicitParam(value = "store_id", required = false,example = "")
+            @ApiImplicitParam(value = "store_id", required = false, example = ""),
+            @ApiImplicitParam(value = "lng", required = false, example = ""),
+            @ApiImplicitParam(value = "lat", required = false, example = ""),
+            @ApiImplicitParam(value = "cityCode", required = false, example = "")
     })
-    public RestResponse getLiveList(Integer page, Integer store_id, @RequestHeader("Authorization") String token) throws JsonProcessingException {
-        return liveService.getLiveList(page, store_id, token);
+    public RestResponse<PageInfo<LiveActivity>> getLiveList(Integer page, Integer store_id, String lng, String lat, String cityCode, @RequestHeader("Authorization") String token) {
+        return liveService.getLiveList(page, store_id, lng, lat, cityCode, token);
     }
 }
