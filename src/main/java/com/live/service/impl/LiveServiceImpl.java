@@ -38,16 +38,15 @@ public class LiveServiceImpl implements LiveService {
         //根据token获取uid
         Object value = redisService.getToken(token);
         LiveUser user = JSONObject.parseObject(value.toString(), LiveUser.class);
-        LiveUser liveUser = liveUserMapper.selectByPrimaryKey(user.getUid());
-        LiveStore bindStore = expandLiveMapper.getBindStore(liveUser.getUid());
-        LiveStore liveStore = null;
-        Integer storeId = null;
-        if (liveUser.getClerk_id() != null) {
-            liveStore = getLiveStore(liveUser.getClerk_id());
-            if (liveStore != null) {
-                storeId=liveStore.getId();
+        if (user != null) {
+            //查询绑定店铺
+            LiveStore bindStore = expandLiveMapper.getBindStore(user.getUid());
+            if (null == bindStore) {
+                String substring = cityCode.substring(3);
+                substring = substring.length() == 12 ? substring : substring + "000000";
             }
         }
+
         return null;
     }
 

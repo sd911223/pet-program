@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.live.dao.ExpandLiveMapper">
+
+    <select id="getBindStore" resultType="com.live.model.LiveStore">
+        select
+          s.id as id,
+          s.store_name as store_name,
+          s.admin_id as admin_id,
+          s.introduction as introduction,
+          s.detailed_address as detailed_address,
+          s.store_image as store_image,
+          s.latitude as latitude,
+          s.longitude as longitude,
+          s.day_time as day_time,
+          s.type_id as type_id,
+          s.contact_name as contact_name,
+          s.province_id as province_id,
+          s.city_id as city_id,
+          s.area_id as area_id,
+          s.contact_mobile as contact_mobile,
+          s.parent_no as parent_no,
+          s.store_sort as store_sort,
+          s.store_status as store_status,
+          s.is_cancellation as is_cancellation,
+          s.create_time as create_time,
+          s.update_time as update_time
+        from
+          live_user u,
+          live_store_clerk c,
+          live_store s
+        where u.clerk_id = c.id
+          and c.store_id = s.id
+          and u.uid = #{uid}
+    </select>
+</mapper>
