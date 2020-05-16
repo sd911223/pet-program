@@ -1,6 +1,5 @@
 package com.live.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.live.common.RestResponse;
@@ -11,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * @author shitou
  */
@@ -23,6 +18,7 @@ import java.util.regex.Pattern;
 public class LiveServiceImpl implements LiveService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
     @Override
     public RestResponse getLiveList(Integer page, Integer store_id, String token) throws JsonProcessingException {
         //根据token获取uid
@@ -41,12 +37,5 @@ public class LiveServiceImpl implements LiveService {
 
         return null;
     }
-    public String unescapeUnicode(String str){
-        StringBuffer b=new StringBuffer();
-        Matcher m = Pattern.compile("\\\\u([0-9a-fA-F]{4})").matcher(str);
-        while(m.find()) {
-            b.append((char)Integer.parseInt(m.group(1),16));
-        }
-        return b.toString();
-    }
+
 }
