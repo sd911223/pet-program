@@ -12,6 +12,6 @@ public interface ExpandLiveMapper {
             "  live_store s \n" +
             "where u.clerk_id = c.id \n" +
             "  and c.store_id = s.id \n" +
-            "  and u.uid=")
-    LiveStore getBindStore();
+            "  and u.uid=#{uid}")
+    LiveStore getBindStore(Integer uid);
 }

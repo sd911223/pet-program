@@ -24,22 +24,6 @@ public class MiniProgramServiceImpl implements MiniProgramService {
     @Override
     public JSONObject getUserInfo() {
 
-        JSONObject paramJson = new JSONObject();
-        paramJson.put("appid", companyId);
-        paramJson.put("secret", sendSign);
-        paramJson.put("js_code", sendSign);
-        paramJson.put("grant_type", "authorization_code");
-
-        'appid' => $this->config['app_id'],
-                'secret' => $this->config['secret'],
-                'js_code' => $jsCode,
-                'grant_type' => 'authorization_code',
-
-
-        HttpUtil http = new HttpUtil();
-        String result = http.sendGetStream(JSCODE_TO_SESSION, donateJson.toJSONString(), "application/json");
-        JSONObject obj = (JSONObject) JSONObject.parse(result);
-
         return null;
     }
 }

@@ -1155,52 +1155,52 @@ public class LiveWechatUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeEqualTo(Byte value) {
+        public Criteria andSubscribeEqualTo(Integer value) {
             addCriterion("subscribe =", value, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeNotEqualTo(Byte value) {
+        public Criteria andSubscribeNotEqualTo(Integer value) {
             addCriterion("subscribe <>", value, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeGreaterThan(Byte value) {
+        public Criteria andSubscribeGreaterThan(Integer value) {
             addCriterion("subscribe >", value, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andSubscribeGreaterThanOrEqualTo(Integer value) {
             addCriterion("subscribe >=", value, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeLessThan(Byte value) {
+        public Criteria andSubscribeLessThan(Integer value) {
             addCriterion("subscribe <", value, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeLessThanOrEqualTo(Byte value) {
+        public Criteria andSubscribeLessThanOrEqualTo(Integer value) {
             addCriterion("subscribe <=", value, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeIn(List<Byte> values) {
+        public Criteria andSubscribeIn(List<Integer> values) {
             addCriterion("subscribe in", values, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeNotIn(List<Byte> values) {
+        public Criteria andSubscribeNotIn(List<Integer> values) {
             addCriterion("subscribe not in", values, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeBetween(Byte value1, Byte value2) {
+        public Criteria andSubscribeBetween(Integer value1, Integer value2) {
             addCriterion("subscribe between", value1, value2, "subscribe");
             return (Criteria) this;
         }
 
-        public Criteria andSubscribeNotBetween(Byte value1, Byte value2) {
+        public Criteria andSubscribeNotBetween(Integer value1, Integer value2) {
             addCriterion("subscribe not between", value1, value2, "subscribe");
             return (Criteria) this;
         }

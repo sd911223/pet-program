@@ -2,6 +2,7 @@ package com.live.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.live.common.RestResponse;
+import com.live.dao.ExpandLiveMapper;
 import com.live.dao.LiveStoreClerkMapper;
 import com.live.dao.LiveStoreMapper;
 import com.live.dao.LiveUserMapper;
@@ -29,6 +30,8 @@ public class LiveServiceImpl implements LiveService {
     LiveStoreClerkMapper liveStoreClerkMapper;
     @Autowired
     LiveStoreMapper liveStoreMapper;
+    @Autowired
+    private ExpandLiveMapper expandLiveMapper;
 
     @Override
     public RestResponse getLiveList(Integer page, Integer store_id, String lng, String lat, String cityCode, String token) {
@@ -36,6 +39,7 @@ public class LiveServiceImpl implements LiveService {
         Object value = redisService.getToken(token);
         LiveUser user = JSONObject.parseObject(value.toString(), LiveUser.class);
         LiveUser liveUser = liveUserMapper.selectByPrimaryKey(user.getUid());
+        LiveStore bindStore = expandLiveMapper.getBindStore(liveUser.getUid());
         LiveStore liveStore = null;
         Integer storeId = null;
         if (liveUser.getClerk_id() != null) {
