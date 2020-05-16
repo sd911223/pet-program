@@ -31,10 +31,10 @@ public class RedisServiceImpl implements IRedisService {
     @Autowired
     private DefaultRedisScript<Long> redisScript;
 
-    @Value("redis.prefix")
+    @Value("${redis.prefix}")
     private String prefix;
 
-    @Value("redis.token")
+    @Value("${redis.token}")
     private String token;
 
     /**
@@ -145,7 +145,7 @@ public class RedisServiceImpl implements IRedisService {
         Object result = null;
         ValueOperations<Serializable, Object> operations = phpRedisTemplate.opsForValue();
         result = operations.get(prefix + token + key + ":");
-        return null;
+        return result;
     }
 
     /**
