@@ -1,69 +1,90 @@
 package com.live.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * redis工具类
+ * Redis操作工具类
+ *
+ * @author shitou
  */
+@Component
 public class RedisUtil {
 
-    private String token;
-
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
 
     /**
-     * 查询key,支持模糊查询
+     * 设置过期时间，单位秒
      *
-     * @param key 传过来时key的前后端已经加入了*，或者根据具体处理
+     * @param key     键的名称
+     * @param timeout 过期时间
+     * @return 成功：true，失败：false
      */
-    public Set<String> keys(String key) {
-        return redisTemplate.keys(key);
+    public boolean setExpireTime(String key, long timeout) {
+        return redisTemplate.expire(key, timeout, TimeUnit.SECONDS);
     }
 
     /**
-     * 字符串获取值
+     * 通过键删除一个值
      *
-     * @param key
+     * @param key 键的名称
+     */
+    public void delete(String key) {
+        redisTemplate.delete(key);
+    }
+
+    /**
+     * 判断key是否存在
+     *
+     * @param key 键的名称
+     * @return 存在：true，不存在：false
+     */
+    public boolean hasKey(String key) {
+        return redisTemplate.hasKey(key);
+    }
+
+    /**
+     * 数据存储
+     *
+     * @param key   键
+     * @param value 值
+     */
+    public void set(String key, Object value) {
+        redisTemplate.boundValueOps(key).set(value);
+    }
+
+    /**
+     * 数据存储的同时设置过期时间
+     *
+     * @param key        键
+     * @param value      值
+     * @param expireTime 过期时间
+     */
+    public void set(String key, Object value, Long expireTime) {
+        redisTemplate.boundValueOps(key).set(value, expireTime, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 数据取值
+     *
+     * @param key 键
+     * @return 查询成功：值，查询失败，null
      */
     public Object get(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-
-    /**
-     * 字符串存入值
-     * 默认过期时间为2小时
-     *
-     * @param key
-     */
-    public void set(String key, String value) {
-        redisTemplate.opsForValue().set(key, value, 7200, TimeUnit.SECONDS);
+        return redisTemplate.boundValueOps(key).get();
     }
 
     /**
-     * 字符串存入值
+     * 获取剩余过期时间
      *
-     * @param expire 过期时间（毫秒计）
-     * @param key
+     * @param key 键
+     * @return 未过期大于0 ，过期小于0
      */
-    public void set(String key, String value, Integer expire) {
-        redisTemplate.opsForValue().set(key, value, expire, TimeUnit.SECONDS);
+    public long getExpireTime(String key) {
+        return redisTemplate.getExpire(key);
     }
-
-
-
-
-
-
-
-
-
 }

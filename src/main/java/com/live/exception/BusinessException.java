@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
  * 自定义异常
  *
  *
+ * @author shitou
  */
 public class BusinessException extends RuntimeException {
     private static final long serialVersionUID = 1L;

@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * 用户拦截器
  *
- * @author hz
+ * @author shitou
  */
 @Component
 public class AppInterceptor implements HandlerInterceptor {

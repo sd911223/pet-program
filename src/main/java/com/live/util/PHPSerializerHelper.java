@@ -3,6 +3,9 @@ import org.phprpc.util.PHPSerializer;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+/**
+ * @author shitou
+ */
 public class PHPSerializerHelper {
     private static PHPSerializer phpSerializer = new PHPSerializer();
 
