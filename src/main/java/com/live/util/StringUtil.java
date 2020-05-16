@@ -1,5 +1,6 @@
 package com.live.util;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -185,4 +186,12 @@ public class StringUtil {
         return o;
     }
 
+
+    public static String getUrlStr(Map<String, String> map){
+        StringBuilder str = new StringBuilder();
+        for(Map.Entry<String,String> entry : map.entrySet()) {
+            str.append(entry.getKey()).append("=").append(entry.getValue().toString()).append("&");
+        }
+        return str.toString().substring(0, str.lastIndexOf("&"));
+    }
 }

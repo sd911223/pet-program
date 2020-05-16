@@ -4,5 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 
 public interface MiniProgramService {
 
-    JSONObject getUserInfo();
+    JSONObject getUserInfo(String code);
+
+    JSONObject notPowerOpenid(String code);
 }
