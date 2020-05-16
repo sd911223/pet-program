@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <tkmybatis.version>3.4.2</tkmybatis.version>
+        <tkmybatis.springboot.version>2.1.5</tkmybatis.springboot.version>
     </properties>
 
     <dependencies>
@@ -79,6 +81,18 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+            <version>${tkmybatis.version}</version>
+        </dependency>
+        <!--mapper-->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>${tkmybatis.springboot.version}</version>
         </dependency>
     </dependencies>
 
