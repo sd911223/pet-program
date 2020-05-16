@@ -1,7 +1,6 @@
 package com.live.util.redis;
 
 import com.alibaba.fastjson.JSONObject;
-import com.live.model.LiveUser;
 import org.phprpc.util.AssocArray;
 import org.phprpc.util.PHPSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;

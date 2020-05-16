@@ -26,7 +26,7 @@ public class LiveController {
     @ApiOperation("获取列表")
     @GetMapping("/live_list")
     @ApiImplicitParams({@ApiImplicitParam(name = "page", required = true, example = "1"),
-            @ApiImplicitParam(value = "store_id", required = true)
+            @ApiImplicitParam(value = "store_id", required = false,example = "")
     })
     public RestResponse getLiveList(Integer page, Integer store_id, @RequestHeader("Authorization") String token) throws JsonProcessingException {
         return liveService.getLiveList(page, store_id, token);

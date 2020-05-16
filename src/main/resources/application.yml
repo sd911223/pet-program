@@ -22,6 +22,3 @@ pagehelper:
   auto-runtime-dialect: false
   close-conn: true
   default-count: false
-token:
-  expirationSeconds: 300
-  validTime: 7

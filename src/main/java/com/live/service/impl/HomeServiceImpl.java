@@ -2,6 +2,7 @@ package com.live.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.live.common.RestResponse;
+import com.live.common.ResultUtil;
 import com.live.dao.LiveActivityExcludeMapper;
 import com.live.dao.LiveActivityMapper;
 import com.live.dao.LiveStoreTreeMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,6 +20,7 @@ import java.util.List;
  */
 @Service
 public class HomeServiceImpl implements HomeService {
+    private static final Integer max = 1;
     @Autowired
     LiveActivityMapper liveActivityMapper;
     @Autowired
@@ -27,14 +30,19 @@ public class HomeServiceImpl implements HomeService {
 
     @Override
     public RestResponse indexMap(String hotProduct, String recommendProduct, String goodProduct, String newProduct, String storeId, String type) {
+        HashMap<Object, Object> hashMap = new HashMap<>();
         //查出直播海报
         List<LiveActivity> listActivity = getListActivity(storeId);
         if (!listActivity.isEmpty()) {
             for (LiveActivity liveActivity : listActivity) {
                 String store_id_json = liveActivity.getStore_id_json();
                 List<String> lists = JSON.parseArray(store_id_json, String.class);
+
+
+                Integer status = 1;
                 // 判断是否设置参与活动门店，有设置，看看门店是否被选中
                 if (!lists.isEmpty()) {
+                    status = 0;
                     for (String e : lists) {
                         //所有门店ID
                         List<Integer> listStoreId = getListStoreId(e);
@@ -44,11 +52,21 @@ public class HomeServiceImpl implements HomeService {
                         if (count > 0) {
                             break;
                         }
+                        status = 1;
+                        break;
                     }
+                }
+                if (status == 1) {
+                    hashMap.put("live_list",liveActivity);
                 }
             }
         }
-        return null;
+
+        //热卖产品
+
+
+
+        return ResultUtil.success(hashMap);
     }
 
     /**

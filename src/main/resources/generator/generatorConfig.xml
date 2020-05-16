@@ -96,7 +96,7 @@
         <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
         <!--        </table>-->
 
-        <table tableName="live_system_config" enableCountByExample="true"
+        <table tableName="live_user" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
@@ -109,8 +109,9 @@
 
             <!--             数据库表主键-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <columnOverride column="upload_type" javaType="Integer"/>
             <columnOverride column="status" javaType="Integer"/>
+            <columnOverride column="tinyint" javaType="Integer"/>
+            <columnOverride column="is_promoter" javaType="Integer"/>
         </table>
     </context>
 </generatorConfiguration>
