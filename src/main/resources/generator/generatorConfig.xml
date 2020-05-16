@@ -109,6 +109,8 @@
 
             <!--             数据库表主键-->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
+                                <columnOverride column="subscribe" javaType="Integer"/>
+                                <columnOverride column="sex" javaType="Integer"/>
         </table>
     </context>
 </generatorConfiguration>
