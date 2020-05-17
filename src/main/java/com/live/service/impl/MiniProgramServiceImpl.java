@@ -37,7 +37,7 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
     private static Map<String,String> configMap = new HashMap<>();
 
-    {
+    void initConfigMap(){
         if(configMap.size() <= 0) {
             LiveSystemConfigExample example = new LiveSystemConfigExample();
             List<LiveSystemConfig> liveSystemConfigList = liveSystemConfigMapper.selectByExample(example);
@@ -50,6 +50,7 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
     @Override
     public JSONObject getUserInfo(String code) {
+        initConfigMap();
 
         Map<String,String> paramMap = new HashMap<>();
         paramMap.put("appid", configMap.get("wechat_appid"));
@@ -66,6 +67,8 @@ public class MiniProgramServiceImpl implements MiniProgramService {
 
     @Override
     public JSONObject notPowerOpenid(String code) {
+        initConfigMap();
+
         Map<String,String> paramMap = new HashMap<>();
         paramMap.put("appid", configMap.get("routine_appId"));
         paramMap.put("secret", configMap.get("routine_appsecret"));
