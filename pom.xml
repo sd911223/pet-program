@@ -67,6 +67,11 @@
             <version>2.2.5.RELEASE</version>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
@@ -82,7 +87,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!--kaishi-->
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
@@ -111,9 +116,9 @@
             <version>2.2.3</version>
             <classifier>jdk15</classifier>
         </dependency>
-
     </dependencies>
 
+    <!--结束-->
     <build>
         <plugins>
             <plugin>
