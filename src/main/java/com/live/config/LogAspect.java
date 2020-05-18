@@ -1,5 +1,7 @@
 package com.live.config;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -12,6 +14,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @Aspect
 @Component
@@ -20,14 +24,19 @@ public class LogAspect {
 
     //用来记录请求进入的时间，防止多线程时出错，这里用了ThreadLocal
     ThreadLocal<Long> startTime = new ThreadLocal<>();
+
     /**
      * 定义切入点，controller下面的所有类的所有公有方法，这里需要更改成自己项目的
      */
     @Pointcut("execution(public * com.live.controller..*.*(..))")
-    public void requestLog(){};
+    public void requestLog() {
+    }
+
+    ;
 
     /**
      * 方法之前执行，日志打印请求信息
+     *
      * @param joinPoint joinPoint
      */
     @Before("requestLog()")
@@ -36,7 +45,20 @@ public class LogAspect {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
         //打印当前的请求路径
-        log.info("RequestMapping:[{}]",request.getRequestURI());
+        Map params = new HashMap();
+        // 获取请求的url
+        params.put("url", request.getRequestURL());
+        // 获取请求的方式
+        params.put("method", request.getMethod());
+        // 获取请求的ip地址
+        params.put("ip", request.getRemoteAddr());
+        // 获取类名
+        params.put("className", joinPoint.getSignature().getDeclaringTypeName());
+        // 获取类方法
+        params.put("classMethod", joinPoint.getSignature().getName());
+        // 请求参数
+        params.put("args", joinPoint.getArgs());
+
 
 
         //这里是从token中获取用户信息，打印当前的访问用户，代码不通用
@@ -48,19 +70,22 @@ public class LogAspect {
         }*/
 
         //打印请求参数，如果需要打印其他的信息可以到request中去拿
-        log.info("RequestParam:{}", Arrays.toString(joinPoint.getArgs()));
+        // 输出格式化后的json字符串
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        log.info("REQUEST: {}", gson.toJson(params));
     }
 
     /**
      * 方法返回之前执行，打印才返回值以及方法消耗时间
+     *
      * @param response 返回值
      */
-    @AfterReturning(returning = "response",pointcut = "requestLog()")
+    @AfterReturning(returning = "response", pointcut = "requestLog()")
     public void doAfterRunning(Object response) {
         //打印返回值信息
-        log.info("Response:[{}]",response );
+        log.info("Response:[{}]", response);
         //打印请求耗时
-        log.info("Request spend times : [{}ms]",System.currentTimeMillis()-startTime.get());
+        log.info("Request spend times : [{}ms]", System.currentTimeMillis() - startTime.get());
     }
 
 }
