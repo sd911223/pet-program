@@ -35,7 +35,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
                 .version("1.0")
-                .description("live小程序接口")
+                .description("接口文档")
                 .termsOfServiceUrl("127.0.0.1:18081/doc.html")
                 .contact(new Contact("SB", "www.google.com", "buxiangshuo@qq.com"))
                 .build();

@@ -1,13 +1,19 @@
 package com.live.common;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 定义返回数据结构
  * 返回状态码默认使用 http code
+ *
  * @author shitou
  */
 public class RestResponse<T> {
+    @ApiModelProperty("状态码")
     private Integer status;
+    @ApiModelProperty("消息")
     private String msg;
+    @ApiModelProperty("数据")
     private T data;
 
     public RestResponse() {
