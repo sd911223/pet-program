@@ -22,3 +22,11 @@ pagehelper:
   auto-runtime-dialect: false
   close-conn: true
   default-count: false
+
+
+swagger:
+  production: false
+  basic:
+    enable: true
+    username: shitou
+    password: 123456
