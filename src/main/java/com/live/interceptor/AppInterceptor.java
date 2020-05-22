@@ -3,7 +3,6 @@ package com.live.interceptor;
 import com.alibaba.fastjson.JSON;
 import com.live.common.ResultEnum;
 import com.live.common.ResultUtil;
-import com.live.model.LiveUser;
 import com.live.util.PHPSerializerHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,11 +90,11 @@ public class AppInterceptor implements HandlerInterceptor {
             response.getWriter().write(JSON.toJSONString(ResultUtil.error(ResultEnum.LOGIN_IS_OVERDUE.getStatus(), ResultEnum.LOGIN_IS_OVERDUE.getMsg())));
             return false;
         }
-        LiveUser user = PHPSerializerHelper.convertJavaBean(redisTokenStr, LiveUser.class);
-        if (null == user) {
-            response.getWriter().write(JSON.toJSONString(ResultUtil.error(ResultEnum.LOGIN_IS_OVERDUE.getStatus(), ResultEnum.LOGIN_IS_OVERDUE.getMsg())));
-            return false;
-        }
+//        LiveUser user = PHPSerializerHelper.convertJavaBean(redisTokenStr, LiveUser.class);
+//        if (null == user) {
+//            response.getWriter().write(JSON.toJSONString(ResultUtil.error(ResultEnum.LOGIN_IS_OVERDUE.getStatus(), ResultEnum.LOGIN_IS_OVERDUE.getMsg())));
+//            return false;
+//        }
         return true;
 
     }
