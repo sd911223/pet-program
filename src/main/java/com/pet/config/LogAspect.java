@@ -1,4 +1,4 @@
-package com.live.config;
+package com.pet.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,7 +13,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class LogAspect {
     /**
      * 定义切入点，controller下面的所有类的所有公有方法，这里需要更改成自己项目的
      */
-    @Pointcut("execution(public * com.live.controller..*.*(..))")
+    @Pointcut("execution(public * com.pet.controller..*.*(..))")
     public void requestLog() {
     }
 

@@ -1,4 +1,4 @@
-package com.live.interceptor;
+package com.pet.interceptor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

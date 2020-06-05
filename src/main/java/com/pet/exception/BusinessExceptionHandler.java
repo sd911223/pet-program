@@ -1,7 +1,7 @@
-package com.live.exception;
+package com.pet.exception;
 
-import com.live.common.RestResponse;
-import com.live.common.ResultUtil;
+import com.pet.common.RestResponse;
+import com.pet.common.ResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.live.config;
+package com.pet.config;
 
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import org.springframework.context.annotation.Bean;

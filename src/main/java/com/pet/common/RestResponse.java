@@ -1,4 +1,4 @@
-package com.live.common;
+package com.pet.common;
 
 import io.swagger.annotations.ApiModelProperty;
 

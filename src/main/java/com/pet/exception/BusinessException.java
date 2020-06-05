@@ -1,4 +1,4 @@
-package com.live.exception;
+package com.pet.exception;
 
 import org.springframework.http.HttpStatus;
 

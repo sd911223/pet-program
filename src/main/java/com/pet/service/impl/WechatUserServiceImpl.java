@@ -1,6 +1,6 @@
-package com.live.service.impl;
+package com.pet.service.impl;
 
-import com.live.service.WechatUserInterface;
+import com.pet.service.WechatUserInterface;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

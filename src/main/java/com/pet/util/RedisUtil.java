@@ -1,4 +1,4 @@
-package com.live.util;
+package com.pet.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

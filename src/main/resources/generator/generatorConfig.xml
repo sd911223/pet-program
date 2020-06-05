@@ -46,7 +46,7 @@
         </javaTypeResolver>
 
         <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.live.model" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.pet.model" targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -57,7 +57,7 @@
         </sqlMapGenerator>
 
         <!-- 生成mapper对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="com.live.dao" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="com.pet.dao" targetProject="src/main/java"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
