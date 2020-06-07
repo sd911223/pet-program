@@ -16,7 +16,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author shitou
  */
 @SpringBootApplication
-@MapperScan("com.live.dao")
+@MapperScan("com.pet.dao")
 public class PlatformRenewApplication {
 
     public static void main(String[] args) {

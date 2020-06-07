@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.dao.PetInfoMapper">
+  <resultMap id="BaseResultMap" type="com.pet.model.PetInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="pet_photo" jdbcType="VARCHAR" property="petPhoto" />
+    <result column="pet_name" jdbcType="VARCHAR" property="petName" />
+    <result column="pet_sex" jdbcType="TINYINT" property="petSex" />
+    <result column="variety_code" jdbcType="INTEGER" property="varietyCode" />
+    <result column="pet_birthday" jdbcType="TIMESTAMP" property="petBirthday" />
+    <result column="coat_color" jdbcType="VARCHAR" property="coatColor" />
+    <result column="shoulder_height" jdbcType="TINYINT" property="shoulderHeight" />
+    <result column="is_vaccine" jdbcType="TINYINT" property="isVaccine" />
+    <result column="is_sterilization" jdbcType="TINYINT" property="isSterilization" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_id, pet_photo, pet_name, pet_sex, variety_code, pet_birthday, coat_color, 
+    shoulder_height, is_vaccine, is_sterilization
+  </sql>
+  <select id="selectByExample" parameterType="com.pet.model.PetInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from pet_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pet_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pet.model.PetInfoExample">
+    delete from pet_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pet.model.PetInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pet_info (user_id, pet_photo, pet_name, 
+      pet_sex, variety_code, pet_birthday, 
+      coat_color, shoulder_height, is_vaccine, 
+      is_sterilization)
+    values (#{userId,jdbcType=INTEGER}, #{petPhoto,jdbcType=VARCHAR}, #{petName,jdbcType=VARCHAR}, 
+      #{petSex,jdbcType=TINYINT}, #{varietyCode,jdbcType=INTEGER}, #{petBirthday,jdbcType=TIMESTAMP}, 
+      #{coatColor,jdbcType=VARCHAR}, #{shoulderHeight,jdbcType=TINYINT}, #{isVaccine,jdbcType=TINYINT}, 
+      #{isSterilization,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pet.model.PetInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pet_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="petPhoto != null">
+        pet_photo,
+      </if>
+      <if test="petName != null">
+        pet_name,
+      </if>
+      <if test="petSex != null">
+        pet_sex,
+      </if>
+      <if test="varietyCode != null">
+        variety_code,
+      </if>
+      <if test="petBirthday != null">
+        pet_birthday,
+      </if>
+      <if test="coatColor != null">
+        coat_color,
+      </if>
+      <if test="shoulderHeight != null">
+        shoulder_height,
+      </if>
+      <if test="isVaccine != null">
+        is_vaccine,
+      </if>
+      <if test="isSterilization != null">
+        is_sterilization,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="petPhoto != null">
+        #{petPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="petName != null">
+        #{petName,jdbcType=VARCHAR},
+      </if>
+      <if test="petSex != null">
+        #{petSex,jdbcType=TINYINT},
+      </if>
+      <if test="varietyCode != null">
+        #{varietyCode,jdbcType=INTEGER},
+      </if>
+      <if test="petBirthday != null">
+        #{petBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coatColor != null">
+        #{coatColor,jdbcType=VARCHAR},
+      </if>
+      <if test="shoulderHeight != null">
+        #{shoulderHeight,jdbcType=TINYINT},
+      </if>
+      <if test="isVaccine != null">
+        #{isVaccine,jdbcType=TINYINT},
+      </if>
+      <if test="isSterilization != null">
+        #{isSterilization,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pet.model.PetInfoExample" resultType="java.lang.Long">
+    select count(*) from pet_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pet_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.petPhoto != null">
+        pet_photo = #{record.petPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="record.petName != null">
+        pet_name = #{record.petName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.petSex != null">
+        pet_sex = #{record.petSex,jdbcType=TINYINT},
+      </if>
+      <if test="record.varietyCode != null">
+        variety_code = #{record.varietyCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.petBirthday != null">
+        pet_birthday = #{record.petBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.coatColor != null">
+        coat_color = #{record.coatColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shoulderHeight != null">
+        shoulder_height = #{record.shoulderHeight,jdbcType=TINYINT},
+      </if>
+      <if test="record.isVaccine != null">
+        is_vaccine = #{record.isVaccine,jdbcType=TINYINT},
+      </if>
+      <if test="record.isSterilization != null">
+        is_sterilization = #{record.isSterilization,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pet_info
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      pet_photo = #{record.petPhoto,jdbcType=VARCHAR},
+      pet_name = #{record.petName,jdbcType=VARCHAR},
+      pet_sex = #{record.petSex,jdbcType=TINYINT},
+      variety_code = #{record.varietyCode,jdbcType=INTEGER},
+      pet_birthday = #{record.petBirthday,jdbcType=TIMESTAMP},
+      coat_color = #{record.coatColor,jdbcType=VARCHAR},
+      shoulder_height = #{record.shoulderHeight,jdbcType=TINYINT},
+      is_vaccine = #{record.isVaccine,jdbcType=TINYINT},
+      is_sterilization = #{record.isSterilization,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pet.model.PetInfo">
+    update pet_info
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="petPhoto != null">
+        pet_photo = #{petPhoto,jdbcType=VARCHAR},
+      </if>
+      <if test="petName != null">
+        pet_name = #{petName,jdbcType=VARCHAR},
+      </if>
+      <if test="petSex != null">
+        pet_sex = #{petSex,jdbcType=TINYINT},
+      </if>
+      <if test="varietyCode != null">
+        variety_code = #{varietyCode,jdbcType=INTEGER},
+      </if>
+      <if test="petBirthday != null">
+        pet_birthday = #{petBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coatColor != null">
+        coat_color = #{coatColor,jdbcType=VARCHAR},
+      </if>
+      <if test="shoulderHeight != null">
+        shoulder_height = #{shoulderHeight,jdbcType=TINYINT},
+      </if>
+      <if test="isVaccine != null">
+        is_vaccine = #{isVaccine,jdbcType=TINYINT},
+      </if>
+      <if test="isSterilization != null">
+        is_sterilization = #{isSterilization,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pet.model.PetInfo">
+    update pet_info
+    set user_id = #{userId,jdbcType=INTEGER},
+      pet_photo = #{petPhoto,jdbcType=VARCHAR},
+      pet_name = #{petName,jdbcType=VARCHAR},
+      pet_sex = #{petSex,jdbcType=TINYINT},
+      variety_code = #{varietyCode,jdbcType=INTEGER},
+      pet_birthday = #{petBirthday,jdbcType=TIMESTAMP},
+      coat_color = #{coatColor,jdbcType=VARCHAR},
+      shoulder_height = #{shoulderHeight,jdbcType=TINYINT},
+      is_vaccine = #{isVaccine,jdbcType=TINYINT},
+      is_sterilization = #{isSterilization,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

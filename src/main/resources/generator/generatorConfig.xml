@@ -52,7 +52,7 @@
         </javaClientGenerator>
 
         <!-- 设置数据库的表名和实体类名 -->
-        <table tableName="pet_shop" domainObjectName="PetShop" enableCountByExample="true"
+        <table tableName="pet_info" domainObjectName="PetInfo" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
@@ -64,9 +64,10 @@
             <property name="PositionReport" value="false"/>
             <!-- generatedKey用于生成生成主键的方法 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-            <columnOverride column="is_place_feed" javaType="Integer"/>
-            <columnOverride column="shop_status" javaType="Integer"/>
-            <columnOverride column="shop_type" javaType="Integer"/>
+            <columnOverride column="pet_sex" javaType="Integer"/>
+            <columnOverride column="shoulder_height" javaType="Integer"/>
+            <columnOverride column="is_vaccine" javaType="Integer"/>
+            <columnOverride column="is_sterilization" javaType="Integer"/>
         </table>
     </context>
 
