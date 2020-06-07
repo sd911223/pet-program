@@ -1,102 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE generatorConfiguration
-        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
 <generatorConfiguration>
-    <!-- 数据库驱动:选择你的本地硬盘上面的数据库驱动包-->
-    <classPathEntry
-            location="D:\maven_ku\mysql\mysql-connector-java\5.1.45\mysql-connector-java-5.1.45.jar"/>
-    <context id="DB2Tables" targetRuntime="MyBatis3">
-        <!-- 自动识别数据库关键字，默认false，如果设置为true，根据SqlReservedWords中定义的关键字列表；
-        一般保留默认值，遇到数据库关键字（Java关键字），使用columnOverride覆盖 -->
-        <property name="autoDelimitKeywords" value="true"/>
+    <!-- 指定数据库驱动的jdbc驱动jar包的位置 -->
+    <!-- 此时不需要，因为 jar 包已经在 classpath 中
+    <classPathEntry location="./mysql-connector-java-5.1.40.jar" />
+    -->
 
-        <!-- 生成的Java文件的编码 -->
-        <property name="javaFileEncoding" value="utf-8"/>
-
-        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
-        <property name="beginningDelimiter" value="`"/>
-        <property name="endingDelimiter" value="`"/>
-
-        <!-- 格式化java代码 -->
+    <context id="mysql" defaultModelType="flat" targetRuntime="MyBatis3" >
+        <!-- 生成的 Java 文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- 格式化 Java 代码 -->
         <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
-
-        <!-- 格式化XML代码 -->
+        <!-- 格式化 XML 代码 -->
         <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
 
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
-
-        <!-- 注释 -->
-        <commentGenerator>
-            <property name="suppressAllComments" value="false"/><!-- 是否取消注释 -->
-            <property name="suppressDate" value="true"/> <!-- 是否生成注释代时间戳-->
+        <!-- 自定义注释生成器 -->
+        <commentGenerator type="com.pet.mybaitsPlugin.MySQLCommentGenerator">
+            <property name="author" value="shiTou"/>
+            <property name="dateFormat" value="yyyy/MM/dd"/>
         </commentGenerator>
 
-        <!-- jdbc连接 -->
+        <!-- 配置数据库连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://yundiancs.mysql.polardb.rds.aliyuncs.com:3306/ydcs"
-                        userId="ceshi"
-                        password="uP8ICbwQDp52EZ6v"/>
+                        connectionURL="jdbc:mysql://rm-2zek710tplm45h8jkko.mysql.rds.aliyuncs.com:3306/pet_family"
+                        userId="lsp"
+                        password="#*Lsp131421!">
+            <!-- 设置 useInformationSchema 属性为 true -->
+            <property name="useInformationSchema" value="true" />
+        </jdbcConnection>
 
-        <!-- 类型转换 -->
-        <javaTypeResolver>
-            <!-- 是否使用bigDecimal， false可自动转化以下类型（Long, Integer, Short, etc.） -->
-            <property name="forceBigDecimals" value="false"/>
-        </javaTypeResolver>
-
-        <!-- 生成实体类地址 -->
-        <javaModelGenerator targetPackage="com.pet.model" targetProject="src/main/java">
-            <property name="enableSubPackages" value="false"/>
-            <property name="trimStrings" value="true"/>
+        <!-- 生成实体的位置 -->
+        <javaModelGenerator targetPackage="com.pet.model"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
         </javaModelGenerator>
 
-        <!-- 生成xml -->
-        <sqlMapGenerator targetPackage="mapping" targetProject="src/main/resources">
-            <property name="enableSubPackages" value="false"/>
+        <!-- 生成 Mapper XML 的位置 -->
+        <sqlMapGenerator targetPackage="/resources/mapping"
+                         targetProject="src/main">
+            <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <!-- 生成mapper对应client，也就是接口dao -->
-        <javaClientGenerator targetPackage="com.pet.dao" targetProject="src/main/java"
-                             type="XMLMAPPER">
-            <property name="enableSubPackages" value="false"/>
+        <!-- 生成 Mapper 接口的位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.pet.dao"
+                             targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
-<!--                <table tableName="live_activity" enableCountByExample="true"-->
-<!--                       enableSelectByPrimaryKey="true"-->
-<!--                       enableUpdateByPrimaryKey="true"-->
-<!--                       enableDeleteByPrimaryKey="true"-->
-<!--                       enableUpdateByExample="true"-->
-<!--                       enableDeleteByExample="true"-->
-<!--                       enableSelectByExample="true"-->
-<!--                       selectByExampleQueryId="true">-->
-<!--                    <property name="useActualColumnNames" value="true"/>-->
-<!--                    <property name="PositionReport" value="false"/>-->
 
-<!--                    &lt;!&ndash;             数据库表主键&ndash;&gt;-->
-<!--                    <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-<!--                    <columnOverride column="is_show" javaType="Integer"/>-->
-<!--                    <columnOverride column="activity_status" javaType="Integer"/>-->
-<!--                    <columnOverride column="is_del" javaType="Integer"/>-->
-<!--                    <columnOverride column="product_id_json" jdbcType="VARCHAR"></columnOverride>-->
-<!--                    <columnOverride column="store_id_json" jdbcType="VARCHAR"></columnOverride>-->
-<!--                </table>-->
-
-        <!--        <table tableName="live_activity_exclude" enableCountByExample="true"-->
-        <!--               enableSelectByPrimaryKey="true"-->
-        <!--               enableUpdateByPrimaryKey="true"-->
-        <!--               enableDeleteByPrimaryKey="true"-->
-        <!--               enableUpdateByExample="true"-->
-        <!--               enableDeleteByExample="true"-->
-        <!--               enableSelectByExample="true"-->
-        <!--               selectByExampleQueryId="true">-->
-        <!--            <property name="useActualColumnNames" value="true"/>-->
-        <!--            <property name="PositionReport" value="false"/>-->
-
-        <!--            &lt;!&ndash;             数据库表主键&ndash;&gt;-->
-        <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>-->
-        <!--        </table>-->
-
-        <table tableName="live_wechat_user" enableCountByExample="true"
+        <!-- 设置数据库的表名和实体类名 -->
+        <table tableName="pet_shop" domainObjectName="PetShop" enableCountByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true"
@@ -104,13 +60,14 @@
                enableDeleteByExample="true"
                enableSelectByExample="true"
                selectByExampleQueryId="true">
-            <property name="useActualColumnNames" value="true"/>
+            <property name="useActualColumnNames" value="false"/>
             <property name="PositionReport" value="false"/>
-
-            <!--             数据库表主键-->
+            <!-- generatedKey用于生成生成主键的方法 -->
             <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
-                                <columnOverride column="subscribe" javaType="Integer"/>
-                                <columnOverride column="sex" javaType="Integer"/>
+            <columnOverride column="is_place_feed" javaType="Integer"/>
+            <columnOverride column="shop_status" javaType="Integer"/>
+            <columnOverride column="shop_type" javaType="Integer"/>
         </table>
     </context>
+
 </generatorConfiguration>

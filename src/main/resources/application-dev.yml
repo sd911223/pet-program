@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://yundiancs.mysql.polardb.rds.aliyuncs.com:3306/ydcs?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-    username: ceshi
-    password: uP8ICbwQDp52EZ6v
+    url: jdbc:mysql://yundiancs.mysql.polardb.rds.aliyuncs.com:3306/pet_family?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    username: lsp
+    password: '#*Lsp131421!'
     db-type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 5
     minIdle: 5
@@ -40,4 +40,6 @@ redis:
   prefix: njm_
   token: token_uid_
 
-
+baiduAddress:
+  url: http://api.map.baidu.com/geocoding/v3/
+  key: gUcIf1KKVyKbHYKnZ0lHt1ISojBwfk1x

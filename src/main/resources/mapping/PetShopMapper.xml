@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pet.dao.PetShopMapper">
+  <resultMap id="BaseResultMap" type="com.pet.model.PetShop">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="shop_name" jdbcType="VARCHAR" property="shopName" />
+    <result column="shop_address" jdbcType="VARCHAR" property="shopAddress" />
+    <result column="province_code" jdbcType="VARCHAR" property="provinceCode" />
+    <result column="province_str" jdbcType="VARCHAR" property="provinceStr" />
+    <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
+    <result column="city_str" jdbcType="VARCHAR" property="cityStr" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="area_str" jdbcType="VARCHAR" property="areaStr" />
+    <result column="business_license" jdbcType="VARCHAR" property="businessLicense" />
+    <result column="tax_license" jdbcType="VARCHAR" property="taxLicense" />
+    <result column="medical_license" jdbcType="VARCHAR" property="medicalLicense" />
+    <result column="other_license" jdbcType="VARCHAR" property="otherLicense" />
+    <result column="shop_type" jdbcType="TINYINT" property="shopType" />
+    <result column="shop_status" jdbcType="TINYINT" property="shopStatus" />
+    <result column="business_time_start" jdbcType="TIMESTAMP" property="businessTimeStart" />
+    <result column="business_time_end" jdbcType="TIMESTAMP" property="businessTimeEnd" />
+    <result column="contact_number" jdbcType="VARCHAR" property="contactNumber" />
+    <result column="is_place_feed" jdbcType="TINYINT" property="isPlaceFeed" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, shop_name, shop_address, province_code, province_str, city_code, city_str, area_code, 
+    area_str, business_license, tax_license, medical_license, other_license, shop_type, 
+    shop_status, business_time_start, business_time_end, contact_number, is_place_feed
+  </sql>
+  <select id="selectByExample" parameterType="com.pet.model.PetShopExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from pet_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pet_shop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet_shop
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pet.model.PetShopExample">
+    delete from pet_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pet.model.PetShop">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pet_shop (shop_name, shop_address, province_code, 
+      province_str, city_code, city_str, 
+      area_code, area_str, business_license, 
+      tax_license, medical_license, other_license, 
+      shop_type, shop_status, business_time_start, 
+      business_time_end, contact_number, is_place_feed
+      )
+    values (#{shopName,jdbcType=VARCHAR}, #{shopAddress,jdbcType=VARCHAR}, #{provinceCode,jdbcType=VARCHAR}, 
+      #{provinceStr,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{cityStr,jdbcType=VARCHAR}, 
+      #{areaCode,jdbcType=VARCHAR}, #{areaStr,jdbcType=VARCHAR}, #{businessLicense,jdbcType=VARCHAR}, 
+      #{taxLicense,jdbcType=VARCHAR}, #{medicalLicense,jdbcType=VARCHAR}, #{otherLicense,jdbcType=VARCHAR}, 
+      #{shopType,jdbcType=TINYINT}, #{shopStatus,jdbcType=TINYINT}, #{businessTimeStart,jdbcType=TIMESTAMP}, 
+      #{businessTimeEnd,jdbcType=TIMESTAMP}, #{contactNumber,jdbcType=VARCHAR}, #{isPlaceFeed,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pet.model.PetShop">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into pet_shop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopName != null">
+        shop_name,
+      </if>
+      <if test="shopAddress != null">
+        shop_address,
+      </if>
+      <if test="provinceCode != null">
+        province_code,
+      </if>
+      <if test="provinceStr != null">
+        province_str,
+      </if>
+      <if test="cityCode != null">
+        city_code,
+      </if>
+      <if test="cityStr != null">
+        city_str,
+      </if>
+      <if test="areaCode != null">
+        area_code,
+      </if>
+      <if test="areaStr != null">
+        area_str,
+      </if>
+      <if test="businessLicense != null">
+        business_license,
+      </if>
+      <if test="taxLicense != null">
+        tax_license,
+      </if>
+      <if test="medicalLicense != null">
+        medical_license,
+      </if>
+      <if test="otherLicense != null">
+        other_license,
+      </if>
+      <if test="shopType != null">
+        shop_type,
+      </if>
+      <if test="shopStatus != null">
+        shop_status,
+      </if>
+      <if test="businessTimeStart != null">
+        business_time_start,
+      </if>
+      <if test="businessTimeEnd != null">
+        business_time_end,
+      </if>
+      <if test="contactNumber != null">
+        contact_number,
+      </if>
+      <if test="isPlaceFeed != null">
+        is_place_feed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopName != null">
+        #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceStr != null">
+        #{provinceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityStr != null">
+        #{cityStr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaStr != null">
+        #{areaStr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="taxLicense != null">
+        #{taxLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalLicense != null">
+        #{medicalLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="otherLicense != null">
+        #{otherLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        #{shopType,jdbcType=TINYINT},
+      </if>
+      <if test="shopStatus != null">
+        #{shopStatus,jdbcType=TINYINT},
+      </if>
+      <if test="businessTimeStart != null">
+        #{businessTimeStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessTimeEnd != null">
+        #{businessTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactNumber != null">
+        #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isPlaceFeed != null">
+        #{isPlaceFeed,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pet.model.PetShopExample" resultType="java.lang.Long">
+    select count(*) from pet_shop
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update pet_shop
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopName != null">
+        shop_name = #{record.shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopAddress != null">
+        shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceCode != null">
+        province_code = #{record.provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceStr != null">
+        province_str = #{record.provinceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityCode != null">
+        city_code = #{record.cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityStr != null">
+        city_str = #{record.cityStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaCode != null">
+        area_code = #{record.areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaStr != null">
+        area_str = #{record.areaStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessLicense != null">
+        business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taxLicense != null">
+        tax_license = #{record.taxLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.medicalLicense != null">
+        medical_license = #{record.medicalLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.otherLicense != null">
+        other_license = #{record.otherLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopType != null">
+        shop_type = #{record.shopType,jdbcType=TINYINT},
+      </if>
+      <if test="record.shopStatus != null">
+        shop_status = #{record.shopStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.businessTimeStart != null">
+        business_time_start = #{record.businessTimeStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.businessTimeEnd != null">
+        business_time_end = #{record.businessTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.contactNumber != null">
+        contact_number = #{record.contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isPlaceFeed != null">
+        is_place_feed = #{record.isPlaceFeed,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update pet_shop
+    set id = #{record.id,jdbcType=INTEGER},
+      shop_name = #{record.shopName,jdbcType=VARCHAR},
+      shop_address = #{record.shopAddress,jdbcType=VARCHAR},
+      province_code = #{record.provinceCode,jdbcType=VARCHAR},
+      province_str = #{record.provinceStr,jdbcType=VARCHAR},
+      city_code = #{record.cityCode,jdbcType=VARCHAR},
+      city_str = #{record.cityStr,jdbcType=VARCHAR},
+      area_code = #{record.areaCode,jdbcType=VARCHAR},
+      area_str = #{record.areaStr,jdbcType=VARCHAR},
+      business_license = #{record.businessLicense,jdbcType=VARCHAR},
+      tax_license = #{record.taxLicense,jdbcType=VARCHAR},
+      medical_license = #{record.medicalLicense,jdbcType=VARCHAR},
+      other_license = #{record.otherLicense,jdbcType=VARCHAR},
+      shop_type = #{record.shopType,jdbcType=TINYINT},
+      shop_status = #{record.shopStatus,jdbcType=TINYINT},
+      business_time_start = #{record.businessTimeStart,jdbcType=TIMESTAMP},
+      business_time_end = #{record.businessTimeEnd,jdbcType=TIMESTAMP},
+      contact_number = #{record.contactNumber,jdbcType=VARCHAR},
+      is_place_feed = #{record.isPlaceFeed,jdbcType=TINYINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pet.model.PetShop">
+    update pet_shop
+    <set>
+      <if test="shopName != null">
+        shop_name = #{shopName,jdbcType=VARCHAR},
+      </if>
+      <if test="shopAddress != null">
+        shop_address = #{shopAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceCode != null">
+        province_code = #{provinceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceStr != null">
+        province_str = #{provinceStr,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null">
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityStr != null">
+        city_str = #{cityStr,jdbcType=VARCHAR},
+      </if>
+      <if test="areaCode != null">
+        area_code = #{areaCode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaStr != null">
+        area_str = #{areaStr,jdbcType=VARCHAR},
+      </if>
+      <if test="businessLicense != null">
+        business_license = #{businessLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="taxLicense != null">
+        tax_license = #{taxLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="medicalLicense != null">
+        medical_license = #{medicalLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="otherLicense != null">
+        other_license = #{otherLicense,jdbcType=VARCHAR},
+      </if>
+      <if test="shopType != null">
+        shop_type = #{shopType,jdbcType=TINYINT},
+      </if>
+      <if test="shopStatus != null">
+        shop_status = #{shopStatus,jdbcType=TINYINT},
+      </if>
+      <if test="businessTimeStart != null">
+        business_time_start = #{businessTimeStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="businessTimeEnd != null">
+        business_time_end = #{businessTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactNumber != null">
+        contact_number = #{contactNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isPlaceFeed != null">
+        is_place_feed = #{isPlaceFeed,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pet.model.PetShop">
+    update pet_shop
+    set shop_name = #{shopName,jdbcType=VARCHAR},
+      shop_address = #{shopAddress,jdbcType=VARCHAR},
+      province_code = #{provinceCode,jdbcType=VARCHAR},
+      province_str = #{provinceStr,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      city_str = #{cityStr,jdbcType=VARCHAR},
+      area_code = #{areaCode,jdbcType=VARCHAR},
+      area_str = #{areaStr,jdbcType=VARCHAR},
+      business_license = #{businessLicense,jdbcType=VARCHAR},
+      tax_license = #{taxLicense,jdbcType=VARCHAR},
+      medical_license = #{medicalLicense,jdbcType=VARCHAR},
+      other_license = #{otherLicense,jdbcType=VARCHAR},
+      shop_type = #{shopType,jdbcType=TINYINT},
+      shop_status = #{shopStatus,jdbcType=TINYINT},
+      business_time_start = #{businessTimeStart,jdbcType=TIMESTAMP},
+      business_time_end = #{businessTimeEnd,jdbcType=TIMESTAMP},
+      contact_number = #{contactNumber,jdbcType=VARCHAR},
+      is_place_feed = #{isPlaceFeed,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
