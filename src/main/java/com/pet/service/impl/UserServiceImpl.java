@@ -34,13 +34,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PetUser findByOpenid(String openid) {
+        PetUser petUser = null;
         PetUserExample petUserExample = new PetUserExample();
         petUserExample.createCriteria().andOpenIdEqualTo(openid);
         List<PetUser> userList = petUserMapper.selectByExample(petUserExample);
         if (userList.isEmpty()) {
-            return new PetUser();
+            return petUser;
+        } else {
+            petUser = userList.get(0);
         }
-        return userList.get(0);
+        return petUser;
     }
 
     @Override
@@ -71,21 +74,7 @@ public class UserServiceImpl implements UserService {
             String city = rawDataJson.getString("city");
             String country = rawDataJson.getString("country");
             String province = rawDataJson.getString("province");
-
-
-            user.setOpenId(openid);
-            user.setCreateTime(new Date());
-            user.setSessionKey(sessionKey);
-            user.setUbalance(0);
-            user.setProvince(province);
-            user.setCity(city);
-            user.setCountry(country);
-            user.setAvatarUrl(avatarUrl);
-            user.setGender(Integer.parseInt(gender));
-            user.setNickName(nickName);
-            user.setUpdateTime(new Date());
-
-            petUserMapper.insertSelective(user);
+            user = saveUser(openid, sessionKey, province, city, country, avatarUrl, nickName, gender);
         } else {
             //已存在
             log.info("用户openid已存在,不需要插入");
@@ -116,6 +105,30 @@ public class UserServiceImpl implements UserService {
         return ResultUtil.success(map);
     }
 
+    private PetUser saveUser(String openid, String sessionKey, String province, String city, String country, String avatarUrl, String nickName, String gender) {
+        PetUser user = new PetUser();
+        user.setOpenId(openid);
+        user.setCreateTime(new Date());
+        user.setSessionKey(sessionKey);
+        user.setUbalance(0);
+        user.setProvince(province);
+        user.setCity(city);
+        user.setCountry(country);
+        user.setAvatarUrl(avatarUrl);
+        user.setGender(Integer.parseInt(gender));
+        user.setNickName(nickName);
+        user.setUpdateTime(new Date());
+
+        petUserMapper.insertSelective(user);
+        return user;
+    }
+
+    /**
+     * 获取sessionkey
+     *
+     * @param code
+     * @return
+     */
     public static JSONObject getSessionKeyOrOpenId(String code) {
         //微信端登录code
         String wxCode = code;

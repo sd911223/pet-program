@@ -42,5 +42,14 @@ public class ResultUtil {
         result.setMsg(ResultEnum.UNKNOWN_ERROR.getMsg());
         return result;
     }
+    /**
+     * 失败
+     **/
+    public static RestResponse error(String msg) {
+        RestResponse result = new RestResponse();
+        result.setStatus(ResultEnum.UNKNOWN_ERROR.getStatus());
+        result.setMsg(msg);
+        return result;
+    }
 
 }
