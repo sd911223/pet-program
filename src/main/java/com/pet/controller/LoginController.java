@@ -1,8 +1,11 @@
 package com.pet.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.pet.annotation.LoginUser;
 import com.pet.bean.dto.LoginDto;
 import com.pet.common.RestResponse;
 import com.pet.common.ResultUtil;
+import com.pet.model.PetUser;
 import com.pet.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,5 +37,14 @@ public class LoginController {
         return ResultUtil.success(userService.login(loginDto));
 
     }
+
+    @PostMapping("/weChat/test")
+    @ApiOperation(value = "测试注解")
+    public RestResponse<PetUser> testToken(@LoginUser PetUser petUser) {
+        log.info(JSON.toJSONString(petUser));
+        return null;
+
+    }
+
 
 }

@@ -7,4 +7,6 @@ public interface UserService {
     PetUser findByOpenid(String openid);
 
     Object login(LoginDto loginDto);
+
+    PetUser findByUserId(Integer userId);
 }

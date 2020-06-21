@@ -12,6 +12,7 @@ public enum ResultEnum {
     USER_NOT_EXIST(1, "用户不存在"),
     USER_IS_EXISTS(2, "用户已存在"),
     DATA_IS_NULL(3, "数据为空"),
+    IMG_NOT_EMPTY(5001, "图片不能为空!"),
     ;
     private Integer status;
     private String msg;

@@ -1,6 +1,19 @@
 spring:
   profiles:
     active: dev
+  #图片上传配置
+  servlet:
+    multipart:
+      #是否启用文件上传功能
+      enabled: true
+      #指定文件的位置, 没有指定时会自动创建一个临时文件夹
+      location: D:/git-depository/upload
+      #指定上传文件大小， 默认1M
+      max-file-size: 20MB
+      #指定multipart / form-data请求允许的最大大小， 默认10M
+      max-request-size: 20MB
+img:
+  location: D:/git-depository/upload
 logging:
   file: live.log
   level:
@@ -30,3 +43,11 @@ swagger:
     enable: true
     username: shitou
     password: 123456
+
+jwt:
+  info:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5
+    # token有效时长，1天，单位秒
+    expire: 3600
+    header: token

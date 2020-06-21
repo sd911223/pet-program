@@ -9,6 +9,7 @@ import com.pet.dao.PetUserMapper;
 import com.pet.model.PetUser;
 import com.pet.model.PetUserExample;
 import com.pet.service.UserService;
+import com.pet.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PetUserMapper petUserMapper;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
     @Override
     public PetUser findByOpenid(String openid) {
         PetUser petUser = null;
@@ -48,6 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Object login(LoginDto loginDto) {
+        String token="";
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println("用户非敏感信息" + loginDto.getRawData());
 
@@ -76,8 +81,11 @@ public class UserServiceImpl implements UserService {
             String province = rawDataJson.getString("province");
             user = saveUser(openid, sessionKey, province, city, country, avatarUrl, nickName, gender);
         } else {
+            token=jwtUtils.generateToken(user.getId());
+
             //已存在
             log.info("用户openid已存在,不需要插入");
+            return ResultUtil.success(token);
         }
         //根据openid查询skey是否存在
 //        String skey_redis = (String) redisTemplate.opsForValue().get( openid );
@@ -99,10 +107,17 @@ public class UserServiceImpl implements UserService {
         JSONObject userInfo = getUserInfo(loginDto.getEncrypteData(), sessionKey, loginDto.getIv());
         System.out.println("根据解密算法获取的userInfo=" + userInfo);
 //        userInfo.put( "balance",user.getUbalance() );
+         token = jwtUtils.generateToken(user.getId());
         map.put("userInfo", userInfo);
 
 
-        return ResultUtil.success(map);
+        return ResultUtil.success(token);
+    }
+
+    @Override
+    public PetUser findByUserId(Integer userId) {
+        PetUser petUser = petUserMapper.selectByPrimaryKey(userId);
+        return petUser;
     }
 
     private PetUser saveUser(String openid, String sessionKey, String province, String city, String country, String avatarUrl, String nickName, String gender) {

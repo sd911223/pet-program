@@ -1,7 +1,8 @@
 package com.pet.controller;
 
+import com.pet.annotation.LoginUser;
 import com.pet.common.RestResponse;
-import com.pet.common.ResultUtil;
+import com.pet.model.PetUser;
 import com.pet.service.ImgUploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,22 +13,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping(value = "/petApi")
-@Api(tags = "图片上传")
+@Api(tags = "图片管理")
 public class ImgUploadController {
     @Autowired
     ImgUploadService imgUploadService;
 
     @PostMapping("/upload")
     @ApiOperation("上传")
-    public RestResponse uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest request, @RequestParam("type") String type) {
-        // 判断文件是否为空
-        if (file.isEmpty()) {
-            return ResultUtil.error("文件不能为空");
-        }
+    public RestResponse uploadFile(@RequestParam("file") MultipartFile file) {
+
         return imgUploadService.upload(file);
     }
 }
