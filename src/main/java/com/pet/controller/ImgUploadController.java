@@ -1,8 +1,6 @@
 package com.pet.controller;
 
-import com.pet.annotation.LoginUser;
 import com.pet.common.RestResponse;
-import com.pet.model.PetUser;
 import com.pet.service.ImgUploadService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

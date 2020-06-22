@@ -1,6 +1,7 @@
 package com.pet.service.impl;
 
 import com.pet.common.RestResponse;
+import com.pet.common.ResultUtil;
 import com.pet.exception.BusinessException;
 import com.pet.service.ImgUploadService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,31 +30,14 @@ public class ImgUploadServiceImpl implements ImgUploadService {
         }
         String root_fileName = file.getOriginalFilename();
         log.info("上传图片:name={},type={}", root_fileName, contentType);
-        //处理图片
-//        SecurityProperties.User currentUser = userService.getCurrentUser();
-//        //获取路径
-//        String return_path = ImageUtil.getFilePath(currentUser);
-//        String filePath = location + return_path;
-//        log.info("图片保存路径={}", filePath);
-//        String file_name = null;
-//        try {
-//            file_name = saveImg(multipartFile, filePath);
-//            ResultUtil markDVo = new ResultUtil();
-//            ResultUtil.success()
-//            markDVo.setSuccess(0);
-//            if (StringUtils.isNotBlank(file_name)) {
-//                markDVo.set(1);
-//                markDVo.setMessage("上传成功");
-//                markDVo.setUrl(return_path + File.separator + file_name);
-//                markDVo.setCallback(callback);
-//            }
-//            logger.info("返回值：{}", markDVo);
-//            return markDVo;
-//        } catch (IOException e) {
-//            throw new BusinessException("上传失败!");
-//        }
-
-        return null;
+        log.info("图片保存路径={}", location);
+        String file_name = null;
+        try {
+            file_name = saveImg(file, location);
+            return ResultUtil.success(file_name);
+        } catch (IOException e) {
+            throw new BusinessException("上传失败!");
+        }
     }
 
     public String saveImg(MultipartFile multipartFile, String path) throws IOException {
@@ -62,7 +46,7 @@ public class ImgUploadServiceImpl implements ImgUploadService {
             file.mkdirs();
         }
         FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-        String fileName = UUID.randomUUID() + ".png";
+        String fileName = UUID.randomUUID().toString().replace("-", "") + ".png";
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + fileName));
         byte[] bs = new byte[1024];
         int len;
