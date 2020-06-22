@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
-import java.util.UUID;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 @Slf4j
@@ -28,34 +30,32 @@ public class ImgUploadServiceImpl implements ImgUploadService {
         if (!contentType.contains("")) {
             throw new BusinessException("图片格式错误!");
         }
-        String root_fileName = file.getOriginalFilename();
-        log.info("上传图片:name={},type={}", root_fileName, contentType);
-        log.info("图片保存路径={}", location);
+
+        String fileName = file.getOriginalFilename();
+        fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "_" + fileName;
+
+        log.info("上传图片:name={},type={}", fileName, contentType);
         String file_name = null;
         try {
-            file_name = saveImg(file, location);
+            file_name = saveImg(file, fileName);
             return ResultUtil.success(file_name);
         } catch (IOException e) {
             throw new BusinessException("上传失败!");
         }
     }
 
-    public String saveImg(MultipartFile multipartFile, String path) throws IOException {
-        File file = new File(path);
+    public String saveImg(MultipartFile multipartFile, String filename) throws IOException {
+        File file = new File(location);
         if (!file.exists()) {
             file.mkdirs();
         }
-        FileInputStream fileInputStream = (FileInputStream) multipartFile.getInputStream();
-        String fileName = UUID.randomUUID().toString().replace("-", "") + ".png";
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path + File.separator + fileName));
-        byte[] bs = new byte[1024];
-        int len;
-        while ((len = fileInputStream.read(bs)) != -1) {
-            bos.write(bs, 0, len);
-        }
-        bos.flush();
-        bos.close();
-        return fileName;
+
+        File fileServer = new File(file, filename);
+        log.info("file文件真实路径:{}", fileServer.getAbsolutePath());
+
+        multipartFile.transferTo(fileServer);
+
+        return location+filename;
     }
 
 }
