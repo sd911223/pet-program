@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * @author shitou
+ * @Description 图片管理
+ * @Date 2020/6/22 18:07
+ */
 @RestController
 @RequestMapping(value = "/petApi")
 @Api(tags = "图片管理")
-public class ImgUploadController {
+public class ImgManageController {
     @Autowired
     ImgUploadService imgUploadService;
 

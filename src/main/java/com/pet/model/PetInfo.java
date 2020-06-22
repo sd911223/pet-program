@@ -6,7 +6,7 @@ import java.util.Date;
  * 宠物信息表
  *
  * @author shiTou
- * @date   2020/06/07
+ * @date   2020/06/22
  */
 public class PetInfo {
     /**
@@ -63,6 +63,11 @@ public class PetInfo {
      * 是否绝育0:未;1:已
      */
     private Integer isSterilization;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -150,5 +155,13 @@ public class PetInfo {
 
     public void setIsSterilization(Integer isSterilization) {
         this.isSterilization = isSterilization;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

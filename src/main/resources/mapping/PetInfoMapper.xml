@@ -13,6 +13,7 @@
     <result column="shoulder_height" jdbcType="TINYINT" property="shoulderHeight" />
     <result column="is_vaccine" jdbcType="TINYINT" property="isVaccine" />
     <result column="is_sterilization" jdbcType="TINYINT" property="isSterilization" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, user_id, pet_photo, pet_name, pet_sex, variety_code, pet_birthday, coat_color, 
-    shoulder_height, is_vaccine, is_sterilization
+    shoulder_height, is_vaccine, is_sterilization, create_time
   </sql>
   <select id="selectByExample" parameterType="com.pet.model.PetInfoExample" resultMap="BaseResultMap">
     select
@@ -114,11 +115,11 @@
     insert into pet_info (user_id, pet_photo, pet_name, 
       pet_sex, variety_code, pet_birthday, 
       coat_color, shoulder_height, is_vaccine, 
-      is_sterilization)
+      is_sterilization, create_time)
     values (#{userId,jdbcType=INTEGER}, #{petPhoto,jdbcType=VARCHAR}, #{petName,jdbcType=VARCHAR}, 
       #{petSex,jdbcType=TINYINT}, #{varietyCode,jdbcType=INTEGER}, #{petBirthday,jdbcType=TIMESTAMP}, 
       #{coatColor,jdbcType=VARCHAR}, #{shoulderHeight,jdbcType=TINYINT}, #{isVaccine,jdbcType=TINYINT}, 
-      #{isSterilization,jdbcType=TINYINT})
+      #{isSterilization,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.pet.model.PetInfo">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -156,6 +157,9 @@
       <if test="isSterilization != null">
         is_sterilization,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -187,6 +191,9 @@
       </if>
       <if test="isSterilization != null">
         #{isSterilization,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -232,6 +239,9 @@
       <if test="record.isSterilization != null">
         is_sterilization = #{record.isSterilization,jdbcType=TINYINT},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -249,7 +259,8 @@
       coat_color = #{record.coatColor,jdbcType=VARCHAR},
       shoulder_height = #{record.shoulderHeight,jdbcType=TINYINT},
       is_vaccine = #{record.isVaccine,jdbcType=TINYINT},
-      is_sterilization = #{record.isSterilization,jdbcType=TINYINT}
+      is_sterilization = #{record.isSterilization,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -287,6 +298,9 @@
       <if test="isSterilization != null">
         is_sterilization = #{isSterilization,jdbcType=TINYINT},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -301,7 +315,8 @@
       coat_color = #{coatColor,jdbcType=VARCHAR},
       shoulder_height = #{shoulderHeight,jdbcType=TINYINT},
       is_vaccine = #{isVaccine,jdbcType=TINYINT},
-      is_sterilization = #{isSterilization,jdbcType=TINYINT}
+      is_sterilization = #{isSterilization,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

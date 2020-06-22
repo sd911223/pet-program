@@ -7,8 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
+/**
+ * @author dun.shi
+ */
 @ApiModel("宠物信息")
 @Builder
 @Data
@@ -18,25 +22,27 @@ public class PetInfoDto {
     /**
      * 宠物图片
      */
-    @ApiModelProperty("宠物图片")
+    @ApiModelProperty(value = "宠物图片", required = true)
+    @NotBlank(message = "宠物图片不能为空")
     private String petPhoto;
 
     /**
      * 宠物名
      */
-    @ApiModelProperty(value = "宠物名", example = "狗蛋")
+    @ApiModelProperty(value = "宠物名", required = true, example = "狗蛋")
+    @NotBlank(message = "宠物名不能为空")
     private String petName;
 
     /**
      * 1:公;2:母
      */
-    @ApiModelProperty(value = "1:公;2:母", example = "1")
+    @ApiModelProperty(value = "1:公;2:母", required = true, example = "1")
     private Integer petSex;
 
     /**
      * 品种编码
      */
-    @ApiModelProperty(value = "品种编码", example = "1")
+    @ApiModelProperty(value = "品种编码", required = true, example = "1")
     private Integer varietyCode;
 
     /**

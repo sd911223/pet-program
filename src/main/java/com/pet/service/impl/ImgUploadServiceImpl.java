@@ -15,11 +15,16 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * @author shitou
+ */
 @Service
 @Slf4j
 public class ImgUploadServiceImpl implements ImgUploadService {
     @Value("${img.location}")
     private String location;
+
+    private static final String DATE_FORMAT = "yyyyMMddHHmmss";
 
     @Override
     public RestResponse upload(MultipartFile file) {
@@ -32,7 +37,7 @@ public class ImgUploadServiceImpl implements ImgUploadService {
         }
 
         String fileName = file.getOriginalFilename();
-        fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "_" + fileName;
+        fileName = new SimpleDateFormat(DATE_FORMAT).format(new Date()) + "_" + fileName;
 
         log.info("上传图片:name={},type={}", fileName, contentType);
         String file_name = null;
@@ -55,7 +60,7 @@ public class ImgUploadServiceImpl implements ImgUploadService {
 
         multipartFile.transferTo(fileServer);
 
-        return location+filename;
+        return location + filename;
     }
 
 }

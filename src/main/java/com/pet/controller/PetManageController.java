@@ -1,12 +1,11 @@
 package com.pet.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.pet.annotation.LoginUser;
-import com.pet.bean.dto.LoginDto;
+import com.pet.bean.dto.PetInfoDto;
 import com.pet.common.RestResponse;
 import com.pet.common.ResultUtil;
 import com.pet.model.PetUser;
-import com.pet.service.UserService;
+import com.pet.service.PetManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -17,38 +16,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Map;
+
 /**
- * @Description TODO
- * @Date 2020/6/22 18:07
  * @author dun.shi
+ * @Description 宠物管理
+ * @Date 2020/6/22 18:22
  */
-@Api(tags = "登录")
+@Api(tags = "宠物管理")
 @RestController
 @RequestMapping("/petApi")
 @Slf4j
-public class LoginController {
+public class PetManageController {
     @Autowired
-    UserService userService;
+    PetManageService petManageService;
 
     /**
-     * 登陆接口
+     * 添加宠物信息
      */
-    @PostMapping("/weChat/login")
-    @ApiOperation(value = "小程序登录")
-    public RestResponse<Map> login(@RequestBody @Valid LoginDto loginDto) {
+    @PostMapping("/save/petInfo")
+    @ApiOperation(value = "添加宠物信息")
+    public RestResponse savePetInfo(@RequestBody @Valid PetInfoDto petInfoDto, @LoginUser PetUser petUser) {
 
-        return ResultUtil.success(userService.login(loginDto));
-
-    }
-
-    @PostMapping("/weChat/test")
-    @ApiOperation(value = "测试注解")
-    public RestResponse<PetUser> testToken(@LoginUser PetUser petUser) {
-        log.info(JSON.toJSONString(petUser));
-        return null;
+        return ResultUtil.success(petManageService.savePetInfo(petInfoDto, petUser));
 
     }
-
-
 }
