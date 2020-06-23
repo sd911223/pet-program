@@ -40,4 +40,16 @@ public class PetManageController {
         return ResultUtil.success(petManageService.savePetInfo(petInfoDto, petUser));
 
     }
+
+    /**
+     * 获取宠物信息
+     *
+     * @param petUser
+     * @return
+     */
+    @PostMapping("/get/petInfo")
+    @ApiOperation(value = "添加宠物信息")
+    public RestResponse getPetInfo(@LoginUser PetUser petUser) {
+        return null;
+    }
 }
