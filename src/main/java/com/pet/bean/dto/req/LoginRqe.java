@@ -1,4 +1,4 @@
-package com.pet.bean.dto;
+package com.pet.bean.dto.req;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDto {
+public class LoginRqe {
 
     @ApiModelProperty("临时登录凭证")
     @NotBlank(message = "临时登录凭证不能为空")

@@ -3,7 +3,7 @@ package com.pet.service.impl;
 import cn.hutool.core.codec.Base64;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.pet.bean.dto.LoginDto;
+import com.pet.bean.dto.req.LoginRqe;
 import com.pet.common.ResultUtil;
 import com.pet.dao.PetUserMapper;
 import com.pet.model.PetUser;
@@ -51,15 +51,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object login(LoginDto loginDto) {
+    public Object login(LoginRqe loginRqe) {
         String token="";
         Map<String, Object> map = new HashMap<String, Object>();
-        System.out.println("用户非敏感信息" + loginDto.getRawData());
+        System.out.println("用户非敏感信息" + loginRqe.getRawData());
 
-        JSONObject rawDataJson = JSON.parseObject(loginDto.getRawData());
+        JSONObject rawDataJson = JSON.parseObject(loginRqe.getRawData());
 
-        System.out.println("签名" + loginDto.getSignature());
-        JSONObject SessionKeyOpenId = getSessionKeyOrOpenId(loginDto.getCode());
+        System.out.println("签名" + loginRqe.getSignature());
+        JSONObject SessionKeyOpenId = getSessionKeyOrOpenId(loginRqe.getCode());
         System.out.println("post请求获取的SessionAndopenId=" + SessionKeyOpenId);
 
         String openid = SessionKeyOpenId.getString("openid");
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
 //        把新的sessionKey和oppenid返回给小程序
 //        map.put("skey", skey);
 
-        JSONObject userInfo = getUserInfo(loginDto.getEncrypteData(), sessionKey, loginDto.getIv());
+        JSONObject userInfo = getUserInfo(loginRqe.getEncrypteData(), sessionKey, loginRqe.getIv());
         System.out.println("根据解密算法获取的userInfo=" + userInfo);
 //        userInfo.put( "balance",user.getUbalance() );
          token = jwtUtils.generateToken(user.getId());

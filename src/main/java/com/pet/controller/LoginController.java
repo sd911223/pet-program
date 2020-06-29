@@ -2,7 +2,7 @@ package com.pet.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.pet.annotation.LoginUser;
-import com.pet.bean.dto.LoginDto;
+import com.pet.bean.dto.req.LoginRqe;
 import com.pet.common.RestResponse;
 import com.pet.common.ResultUtil;
 import com.pet.model.PetUser;
@@ -36,9 +36,9 @@ public class LoginController {
      */
     @PostMapping("/weChat/login")
     @ApiOperation(value = "小程序登录")
-    public RestResponse<Map> login(@RequestBody @Valid LoginDto loginDto) {
+    public RestResponse<Map> login(@RequestBody @Valid LoginRqe loginRqe) {
 
-        return ResultUtil.success(userService.login(loginDto));
+        return ResultUtil.success(userService.login(loginRqe));
 
     }
 

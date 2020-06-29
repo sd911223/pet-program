@@ -1,4 +1,4 @@
-package com.pet.bean.dto;
+package com.pet.bean.dto.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +18,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PetInfoDto {
+public class PetInfoRqe {
     /**
      * 宠物图片
      */

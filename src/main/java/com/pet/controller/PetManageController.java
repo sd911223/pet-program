@@ -1,7 +1,7 @@
 package com.pet.controller;
 
 import com.pet.annotation.LoginUser;
-import com.pet.bean.dto.PetInfoDto;
+import com.pet.bean.dto.req.PetInfoRqe;
 import com.pet.common.RestResponse;
 import com.pet.common.ResultUtil;
 import com.pet.model.PetUser;
@@ -35,9 +35,9 @@ public class PetManageController {
      */
     @PostMapping("/save/petInfo")
     @ApiOperation(value = "添加宠物信息")
-    public RestResponse savePetInfo(@RequestBody @Valid PetInfoDto petInfoDto, @LoginUser PetUser petUser) {
+    public RestResponse savePetInfo(@RequestBody @Valid PetInfoRqe petInfoRqe, @LoginUser PetUser petUser) {
 
-        return ResultUtil.success(petManageService.savePetInfo(petInfoDto, petUser));
+        return ResultUtil.success(petManageService.savePetInfo(petInfoRqe, petUser));
 
     }
 

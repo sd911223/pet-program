@@ -1,6 +1,6 @@
 package com.pet.service.impl;
 
-import com.pet.bean.dto.PetInfoDto;
+import com.pet.bean.dto.req.PetInfoRqe;
 import com.pet.common.ResultUtil;
 import com.pet.dao.PetInfoMapper;
 import com.pet.model.PetInfo;
@@ -21,9 +21,9 @@ public class PetManageServiceImpl implements PetManageService {
     PetInfoMapper petInfoMapper;
 
     @Override
-    public Object savePetInfo(PetInfoDto petInfoDto, PetUser petUser) {
+    public Object savePetInfo(PetInfoRqe petInfoRqe, PetUser petUser) {
         PetInfo petInfo = new PetInfo();
-        BeanUtils.copyProperties(petInfoDto, petInfo);
+        BeanUtils.copyProperties(petInfoRqe, petInfo);
         petInfo.setUserId(petUser.getId());
         petInfo.setCreateTime(new Date());
         petInfoMapper.insert(petInfo);
