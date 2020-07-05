@@ -4,10 +4,14 @@ import cn.hutool.core.codec.Base64;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pet.bean.dto.req.LoginRqe;
+import com.pet.bean.dto.req.ReportReq;
+import com.pet.common.RestResponse;
 import com.pet.common.ResultUtil;
 import com.pet.dao.PetUserMapper;
+import com.pet.dao.ReportUserInfoMapper;
 import com.pet.model.PetUser;
 import com.pet.model.PetUserExample;
+import com.pet.model.ReportUserInfo;
 import com.pet.service.UserService;
 import com.pet.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +37,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PetUserMapper petUserMapper;
 
+
+    @Autowired
+    ReportUserInfoMapper reportUserInfoMapper;
     @Autowired
     JwtUtils jwtUtils;
 
@@ -51,8 +58,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Object login(LoginRqe loginRqe) {
-        String token="";
+    public RestResponse<String> login(LoginRqe loginRqe) {
+        String token = "";
         Map<String, Object> map = new HashMap<String, Object>();
         System.out.println("用户非敏感信息" + loginRqe.getRawData());
 
@@ -81,7 +88,7 @@ public class UserServiceImpl implements UserService {
             String province = rawDataJson.getString("province");
             user = saveUser(openid, sessionKey, province, city, country, avatarUrl, nickName, gender);
         } else {
-            token=jwtUtils.generateToken(user.getId());
+            token = jwtUtils.generateToken(user.getId());
 
             //已存在
             log.info("用户openid已存在,不需要插入");
@@ -107,7 +114,7 @@ public class UserServiceImpl implements UserService {
         JSONObject userInfo = getUserInfo(loginRqe.getEncrypteData(), sessionKey, loginRqe.getIv());
         System.out.println("根据解密算法获取的userInfo=" + userInfo);
 //        userInfo.put( "balance",user.getUbalance() );
-         token = jwtUtils.generateToken(user.getId());
+        token = jwtUtils.generateToken(user.getId());
         map.put("userInfo", userInfo);
 
 
@@ -119,6 +126,7 @@ public class UserServiceImpl implements UserService {
         PetUser petUser = petUserMapper.selectByPrimaryKey(userId);
         return petUser;
     }
+
 
     private PetUser saveUser(String openid, String sessionKey, String province, String city, String country, String avatarUrl, String nickName, String gender) {
         PetUser user = new PetUser();
@@ -225,4 +233,20 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public RestResponse report(PetUser petUser, ReportReq reportReq) {
+        ReportUserInfo userInfo = reportUserInfoMapper.selectByPrimaryKey(petUser.getId());
+        if (null == userInfo) {
+            ReportUserInfo info = new ReportUserInfo();
+            info.setId(petUser.getId());
+            info.setLongitude(reportReq.getLongitude());
+            info.setLatitude(reportReq.getLatitude());
+            reportUserInfoMapper.insert(info);
+        } else {
+            userInfo.setLongitude(reportReq.getLongitude());
+            userInfo.setLatitude(reportReq.getLatitude());
+            reportUserInfoMapper.updateByPrimaryKey(userInfo);
+        }
+        return ResultUtil.success();
+    }
 }

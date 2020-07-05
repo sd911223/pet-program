@@ -3,6 +3,7 @@ package com.pet.controller;
 import com.alibaba.fastjson.JSON;
 import com.pet.annotation.LoginUser;
 import com.pet.bean.dto.req.LoginRqe;
+import com.pet.bean.dto.req.ReportReq;
 import com.pet.common.RestResponse;
 import com.pet.common.ResultUtil;
 import com.pet.model.PetUser;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.Map;
+
 /**
+ * @author dun.shi
  * @Description TODO
  * @Date 2020/6/22 18:07
- * @author dun.shi
  */
 @Api(tags = "登录")
 @RestController
@@ -36,17 +37,17 @@ public class LoginController {
      */
     @PostMapping("/weChat/login")
     @ApiOperation(value = "小程序登录")
-    public RestResponse<Map> login(@RequestBody @Valid LoginRqe loginRqe) {
+    public RestResponse<String> login(@RequestBody @Valid LoginRqe loginRqe) {
 
         return ResultUtil.success(userService.login(loginRqe));
 
     }
 
-    @PostMapping("/weChat/test")
-    @ApiOperation(value = "测试注解")
-    public RestResponse<PetUser> testToken(@LoginUser PetUser petUser) {
+    @PostMapping("/weChat/report")
+    @ApiOperation(value = "上报")
+    public RestResponse report(@LoginUser PetUser petUser, @RequestBody ReportReq reportReq) {
         log.info(JSON.toJSONString(petUser));
-        return null;
+        return userService.report(petUser, reportReq);
 
     }
 

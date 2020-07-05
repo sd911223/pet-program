@@ -24,8 +24,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public static final String USER_KEY = "LOGIN_USER_KEY";
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 
@@ -49,12 +47,12 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
         // 凭证为空
         if (StringUtils.isEmpty(token)) {
-            throw new BusinessException(jwtUtils.getHeader() + "不能为空", HttpStatus.UNAUTHORIZED.value());
+            throw new BusinessException(HttpStatus.UNAUTHORIZED.value(), jwtUtils.getHeader() + "不能为空");
         }
 
         Claims claims = jwtUtils.getClaimByToken(token);
         if (claims == null || jwtUtils.isTokenExpired(claims.getExpiration())) {
-            throw new BusinessException(jwtUtils.getHeader() + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
+            throw new BusinessException(HttpStatus.UNAUTHORIZED.value(), jwtUtils.getHeader() + "失效，请重新登录");
         }
 
         // 设置userId到request里，后续根据userId，获取用户信息

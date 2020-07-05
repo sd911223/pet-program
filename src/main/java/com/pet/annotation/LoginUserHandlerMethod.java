@@ -41,7 +41,7 @@ public class LoginUserHandlerMethod implements HandlerMethodArgumentResolver {
         HttpServletRequest request = nativeWebRequest.getNativeRequest(HttpServletRequest.class);
         String token = request.getHeader(AUTH_TOKEN);
         if (StringUtils.isEmpty(token)) {
-            throw new BusinessException("token失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
+            throw new BusinessException(HttpStatus.UNAUTHORIZED.value(),"token失效，请重新登录");
         }
         PetUser user = jwtUtils.getUser(token);
         return user;

@@ -25,6 +25,7 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapping/**/*.xml
 
+#分页配置
 pagehelper:
   helper-dialect: mysql
   auto-dialect: true
