@@ -45,9 +45,8 @@ public class LoginController {
 
     @PostMapping("/weChat/report")
     @ApiOperation(value = "上报")
-    public RestResponse report(@LoginUser PetUser petUser, @RequestBody ReportReq reportReq) {
-        log.info(JSON.toJSONString(petUser));
-        return userService.report(petUser, reportReq);
+    public RestResponse report(@RequestBody ReportReq reportReq) {
+        return userService.report(reportReq);
 
     }
 

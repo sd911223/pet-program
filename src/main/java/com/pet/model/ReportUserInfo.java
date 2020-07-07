@@ -1,10 +1,12 @@
 package com.pet.model;
 
+import java.util.Date;
+
 /**
  * 
  *
  * @author shiTou
- * @date   2020/07/05
+ * @date   2020/07/07
  */
 public class ReportUserInfo {
     /**
@@ -26,6 +28,11 @@ public class ReportUserInfo {
      * 手机号
      */
     private String phoneNumber;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -57,5 +64,13 @@ public class ReportUserInfo {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

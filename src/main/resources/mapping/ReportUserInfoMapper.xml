@@ -6,6 +6,7 @@
     <result column="longitude" jdbcType="VARCHAR" property="longitude" />
     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
     <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, longitude, latitude, phone_number
+    id, longitude, latitude, phone_number, create_time
   </sql>
   <select id="selectByExample" parameterType="com.pet.model.ReportUserInfoExample" resultMap="BaseResultMap">
     select
@@ -100,17 +101,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pet.model.ReportUserInfo">
-    insert into report_user_info (id, longitude, latitude, 
-      phone_number)
-    values (#{id,jdbcType=INTEGER}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
-      #{phoneNumber,jdbcType=VARCHAR})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into report_user_info (longitude, latitude, phone_number, 
+      create_time)
+    values (#{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.pet.model.ReportUserInfo">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into report_user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="longitude != null">
         longitude,
       </if>
@@ -120,11 +124,11 @@
       <if test="phoneNumber != null">
         phone_number,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="longitude != null">
         #{longitude,jdbcType=VARCHAR},
       </if>
@@ -133,6 +137,9 @@
       </if>
       <if test="phoneNumber != null">
         #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -157,6 +164,9 @@
       <if test="record.phoneNumber != null">
         phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -167,7 +177,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       longitude = #{record.longitude,jdbcType=VARCHAR},
       latitude = #{record.latitude,jdbcType=VARCHAR},
-      phone_number = #{record.phoneNumber,jdbcType=VARCHAR}
+      phone_number = #{record.phoneNumber,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -184,6 +195,9 @@
       <if test="phoneNumber != null">
         phone_number = #{phoneNumber,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -191,7 +205,8 @@
     update report_user_info
     set longitude = #{longitude,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR},
-      phone_number = #{phoneNumber,jdbcType=VARCHAR}
+      phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

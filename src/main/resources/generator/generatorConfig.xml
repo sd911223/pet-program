@@ -95,6 +95,7 @@
                selectByExampleQueryId="true">
             <property name="useActualColumnNames" value="false"/>
             <property name="PositionReport" value="false"/>
+            <generatedKey column="id" sqlStatement="Mysql" identity="true"/>
         </table>
     </context>
 

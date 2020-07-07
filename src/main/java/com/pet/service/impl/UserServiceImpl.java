@@ -234,19 +234,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RestResponse report(PetUser petUser, ReportReq reportReq) {
-        ReportUserInfo userInfo = reportUserInfoMapper.selectByPrimaryKey(petUser.getId());
-        if (null == userInfo) {
-            ReportUserInfo info = new ReportUserInfo();
-            info.setId(petUser.getId());
-            info.setLongitude(reportReq.getLongitude());
-            info.setLatitude(reportReq.getLatitude());
-            reportUserInfoMapper.insert(info);
-        } else {
-            userInfo.setLongitude(reportReq.getLongitude());
-            userInfo.setLatitude(reportReq.getLatitude());
-            reportUserInfoMapper.updateByPrimaryKey(userInfo);
-        }
+    public RestResponse report(ReportReq reportReq) {
+        ReportUserInfo info = new ReportUserInfo();
+        info.setLongitude(reportReq.getLongitude());
+        info.setLatitude(reportReq.getLatitude());
+        info.setCreateTime(new Date());
+        reportUserInfoMapper.insertSelective(info);
+
         return ResultUtil.success();
     }
 }
