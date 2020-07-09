@@ -11,7 +11,6 @@ import com.pet.dao.PetUserMapper;
 import com.pet.dao.ReportUserInfoMapper;
 import com.pet.model.PetUser;
 import com.pet.model.PetUserExample;
-import com.pet.model.ReportUserInfo;
 import com.pet.service.UserService;
 import com.pet.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -235,11 +234,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RestResponse report(ReportReq reportReq) {
-        ReportUserInfo info = new ReportUserInfo();
-        info.setLongitude(reportReq.getLongitude());
-        info.setLatitude(reportReq.getLatitude());
-        info.setCreateTime(new Date());
-        reportUserInfoMapper.insertSelective(info);
+        log.info("获取小程序内容:{}", JSON.toJSONString(reportReq));
+//        ReportUserInfo info = new ReportUserInfo();
+//        info.setLongitude(reportReq.getLongitude());
+//        info.setLatitude(reportReq.getLatitude());
+//        info.setCreateTime(new Date());
+//        reportUserInfoMapper.insertSelective(info);
 
         return ResultUtil.success();
     }
