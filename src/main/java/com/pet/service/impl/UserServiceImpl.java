@@ -252,7 +252,7 @@ public class UserServiceImpl implements UserService {
         } else {
             jsonObject.put("telnumber", reportReq.getMobile());
         }
-
+        jsonObject.put("areaCode","654301000000");
         jsonObject.put("lat", reportReq.getLongitude());
         jsonObject.put("lng", reportReq.getLatitude());
         jsonObject.put("uuid", UUID.randomUUID());
