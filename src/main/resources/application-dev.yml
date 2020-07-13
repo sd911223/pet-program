@@ -43,3 +43,6 @@ redis:
 baiduAddress:
   url: http://api.map.baidu.com/geocoding/v3/
   key: gUcIf1KKVyKbHYKnZ0lHt1ISojBwfk1x
+
+shangBao:
+  url: http://202.100.190.19:9988/yjbjwxbj/ydbj/getAlert.do

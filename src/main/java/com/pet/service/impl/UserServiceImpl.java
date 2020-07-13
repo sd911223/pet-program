@@ -14,8 +14,10 @@ import com.pet.model.PetUserExample;
 import com.pet.service.UserService;
 import com.pet.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,6 +30,8 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import java.security.spec.InvalidParameterSpecException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -35,7 +39,14 @@ import java.util.*;
 public class UserServiceImpl implements UserService {
     @Autowired
     PetUserMapper petUserMapper;
+    @Value("${shangBao.url}")
+    private String url;
 
+    @Value("${baiduAddress.url}")
+    private String baiDuUrl;
+
+    @Value("${baiduAddress.key}")
+    private String baiDuKey;
 
     @Autowired
     ReportUserInfoMapper reportUserInfoMapper;
@@ -235,12 +246,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public RestResponse report(ReportReq reportReq) {
         log.info("获取小程序内容:{}", JSON.toJSONString(reportReq));
-//        ReportUserInfo info = new ReportUserInfo();
-//        info.setLongitude(reportReq.getLongitude());
-//        info.setLatitude(reportReq.getLatitude());
-//        info.setCreateTime(new Date());
-//        reportUserInfoMapper.insertSelective(info);
+        JSONObject jsonObject = new JSONObject();
+        if (StringUtils.isBlank(reportReq.getMobile()) || null == reportReq.getMobile()) {
+            jsonObject.put("telnumber", "");
+        } else {
+            jsonObject.put("telnumber", reportReq.getMobile());
+        }
 
+        jsonObject.put("lat", reportReq.getLongitude());
+        jsonObject.put("lng", reportReq.getLatitude());
+        jsonObject.put("uuid", UUID.randomUUID());
+        jsonObject.put("sendTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.postForObject(url, jsonObject.toJSONString(), String.class);
+        log.info("上报返回结果:{}", result);
         return ResultUtil.success();
     }
 }
