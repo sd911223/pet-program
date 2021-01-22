@@ -26,4 +26,8 @@ public class ReportReq {
      * 手机号
      */
     private String mobile;
+    /**
+     * 区号
+     */
+    private String areaCode;
 }

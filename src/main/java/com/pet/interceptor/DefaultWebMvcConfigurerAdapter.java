@@ -31,7 +31,10 @@ public class DefaultWebMvcConfigurerAdapter implements WebMvcConfigurer {
         // 访问权限控制
         registry.addInterceptor(getDefaultWebMvcConfigurerAdapter())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/swagger-resources/**","/petApi/weChat/login","/petApi/weChat/report");
+                .excludePathPatterns("/swagger-resources/**"
+                        ,"/petApi/weChat/login",
+                        "/petApi/weChat/report2",
+                        "/petApi/weChat/report");
     }
 
     @Override

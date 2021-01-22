@@ -50,5 +50,12 @@ public class LoginController {
 
     }
 
+    @PostMapping("/weChat/report2")
+    @ApiOperation(value = "上报")
+    public RestResponse report2(@RequestBody @Valid ReportReq reportReq) {
+        return userService.report2(reportReq);
+
+    }
+
 
 }

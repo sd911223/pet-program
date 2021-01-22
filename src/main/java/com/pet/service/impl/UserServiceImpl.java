@@ -250,18 +250,6 @@ public class UserServiceImpl implements UserService {
         log.info("获取小程序内容:{}", JSON.toJSONString(reportReq));
         GPS gps = GPSConverterUtils.gcj02_To_Bd09(Double.valueOf(reportReq.getLatitude()), Double.valueOf(reportReq.getLongitude()));
         log.info("转换过的坐标{}", JSON.toJSONString(gps));
-        RestTemplate template = new RestTemplate();
-        StringBuffer sd = new StringBuffer();
-        sd.append(baiDuUrl);
-        sd.append("?ak=");
-        sd.append(baiDuKey);
-        sd.append("&output=json&coordtype=wgs84ll&location=");
-        sd.append(reportReq.getLongitude());
-        sd.append(",");
-        sd.append(reportReq.getLatitude());
-        log.info("请求地址{}",sd.toString());
-        String object = template.getForObject(sd.toString(), String.class);
-        log.info("地址返回{}",object);
         JSONObject jsonObject = new JSONObject();
         if (StringUtils.isBlank(reportReq.getMobile()) || null == reportReq.getMobile()) {
             jsonObject.put("telnumber", "");
@@ -269,6 +257,28 @@ public class UserServiceImpl implements UserService {
             jsonObject.put("telnumber", reportReq.getMobile());
         }
         jsonObject.put("areaCode", "654301000000");
+        jsonObject.put("lat", reportReq.getLongitude());
+        jsonObject.put("lng", reportReq.getLatitude());
+        jsonObject.put("uuid", UUID.randomUUID());
+        jsonObject.put("sendTime", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.postForObject(url, jsonObject.toJSONString(), String.class);
+        log.info("上报返回结果:{}", result);
+        return ResultUtil.success();
+    }
+
+    @Override
+    public RestResponse report2(ReportReq reportReq) {
+        log.info("获取小程序内容:{}", JSON.toJSONString(reportReq));
+        GPS gps = GPSConverterUtils.gcj02_To_Bd09(Double.valueOf(reportReq.getLatitude()), Double.valueOf(reportReq.getLongitude()));
+        log.info("转换过的坐标{}", JSON.toJSONString(gps));
+        JSONObject jsonObject = new JSONObject();
+        if (StringUtils.isBlank(reportReq.getMobile()) || null == reportReq.getMobile()) {
+            jsonObject.put("telnumber", "");
+        } else {
+            jsonObject.put("telnumber", reportReq.getMobile());
+        }
+        jsonObject.put("areaCode", reportReq.getAreaCode());
         jsonObject.put("lat", reportReq.getLongitude());
         jsonObject.put("lng", reportReq.getLatitude());
         jsonObject.put("uuid", UUID.randomUUID());

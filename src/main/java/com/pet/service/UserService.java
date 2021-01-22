@@ -13,4 +13,5 @@ public interface UserService {
     PetUser findByUserId(Integer userId);
 
     RestResponse report(ReportReq reportReq);
+    RestResponse report2(ReportReq reportReq);
 }
